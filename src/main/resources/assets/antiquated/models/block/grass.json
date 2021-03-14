@@ -1,0 +1,20 @@
+{
+	"parent": "minecraft:block/cube",
+	"ambientocclusion": false,
+	"textures": {
+		"north": "antiquated:block/grass_side",
+		"east": "antiquated:block/grass_side",
+		"south": "antiquated:block/grass_side",
+		"west": "antiquated:block/grass_side",
+		"up": "antiquated:block/grass_top",
+		"down": "antiquated:block/dirt",
+		"particle": "antiquated:block/grass_side"
+	},
+    "display": {
+    	"gui": {
+            "rotation": [ 30, 135, 0 ],
+            "translation": [ 0, 0, 0],
+            "scale":[ 0.625, 0.625, 0.625 ]
+        }
+    }
+}

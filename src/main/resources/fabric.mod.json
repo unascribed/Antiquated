@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "antiquated",
+  "version": "${version}",
+
+  "name": "Antiquated",
+  "description": "Adds biomes, blocks, and items that behave and look how they did in Alpha or earlier.",
+  "authors": [
+    "unascribed"
+  ],
+  "contact": {
+  },
+
+  "license": "MIT",
+  "icon": "assets/antiquated/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [ "com.unascribed.antiquated.Antiquated" ],
+    "client": [ "com.unascribed.antiquated.AntiquatedClient" ]
+  },
+  "mixins": ["antiquated.mixins.json"],
+  "accessWidener": "antiquated.accesswidener",
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+  }
+}

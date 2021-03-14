@@ -1,0 +1,98 @@
+package com.unascribed.antiquated.port.adapter;
+
+import com.unascribed.antiquated.init.ABlocks;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+
+public class BlockIDConverter {
+	
+	public static BlockState convert(int id) {
+		if (id == 11) id = 10;
+		if (id == 9) id = 8;
+		if (id == 74) id = 73;
+		if (id == 76) id = 75;
+		if (id == 62) id = 61;
+		// Jasmine said so
+		return MAPPING.getOrDefault(id, Blocks.MAGENTA_GLAZED_TERRACOTTA).getDefaultState();
+	}
+	
+	public static int convert(BlockState state) {
+		return MAPPING.inverse().getOrDefault(state.getBlock(), 99);
+	}
+	
+	// TODO use Antique block variants
+	private static final BiMap<Integer, Block> MAPPING = ImmutableBiMap.<Integer, Block>builder()
+			.put(0, Blocks.AIR)
+			.put(1, ABlocks.STONE)
+			.put(2, ABlocks.GRASS)
+			.put(3, ABlocks.DIRT)
+			.put(4, ABlocks.COBBLESTONE)
+			.put(5, Blocks.OAK_PLANKS)
+			.put(6, Blocks.OAK_SAPLING)
+			.put(7, Blocks.BEDROCK)
+			.put(8, Blocks.WATER)
+			.put(10, Blocks.LAVA)
+			.put(12, ABlocks.SAND)
+			.put(13, ABlocks.GRAVEL)
+			.put(14, Blocks.GOLD_ORE)
+			.put(15, Blocks.IRON_ORE)
+			.put(16, Blocks.COAL_ORE)
+			.put(17, ABlocks.WOOD)
+			.put(18, ABlocks.LEAVES)
+			.put(19, Blocks.SPONGE)
+			.put(20, Blocks.GLASS)
+			.put(35, Blocks.WHITE_WOOL)
+			.put(37, Blocks.DANDELION)
+			.put(38, Blocks.POPPY)
+			.put(39, Blocks.BROWN_MUSHROOM)
+			.put(40, Blocks.RED_MUSHROOM)
+			.put(41, Blocks.GOLD_BLOCK)
+			.put(42, Blocks.IRON_BLOCK)
+			.put(43, Blocks.SMOOTH_STONE)
+			.put(44, Blocks.SMOOTH_STONE_SLAB)
+			.put(45, Blocks.BRICKS)
+			.put(46, Blocks.TNT)
+			.put(47, Blocks.BOOKSHELF)
+			.put(48, Blocks.MOSSY_COBBLESTONE)
+			.put(49, Blocks.OBSIDIAN)
+			.put(50, Blocks.TORCH)
+			.put(51, Blocks.FIRE)
+			.put(52, Blocks.SPAWNER)
+			.put(53, Blocks.OAK_STAIRS)
+			.put(54, Blocks.CHEST)
+			.put(55, Blocks.REDSTONE_WIRE)
+			.put(56, Blocks.DIAMOND_ORE)
+			.put(57, Blocks.DIAMOND_BLOCK)
+			.put(58, Blocks.CRAFTING_TABLE)
+			.put(59, Blocks.WHEAT)
+			.put(60, Blocks.FARMLAND)
+			.put(61, Blocks.FURNACE)
+			.put(63, Blocks.OAK_SIGN)
+			.put(64, Blocks.OAK_DOOR)
+			.put(65, Blocks.LADDER)
+			.put(66, Blocks.RAIL)
+			.put(67, Blocks.COBBLESTONE_STAIRS)
+			.put(68, Blocks.OAK_WALL_SIGN)
+			.put(69, Blocks.LEVER)
+			.put(70, Blocks.STONE_PRESSURE_PLATE)
+			.put(71, Blocks.IRON_DOOR)
+			.put(72, Blocks.OAK_PRESSURE_PLATE)
+			.put(73, Blocks.REDSTONE_ORE)
+			.put(75, Blocks.REDSTONE_TORCH)
+			.put(77, Blocks.STONE_BUTTON)
+			.put(78, Blocks.SNOW)
+			.put(79, Blocks.ICE)
+			.put(80, Blocks.SNOW_BLOCK)
+			.put(81, ABlocks.CACTUS)
+			.put(82, Blocks.CLAY)
+			.put(83, Blocks.SUGAR_CANE)
+			.put(84, Blocks.JUKEBOX)
+			.put(85, Blocks.OAK_FENCE)
+			.build();
+
+}

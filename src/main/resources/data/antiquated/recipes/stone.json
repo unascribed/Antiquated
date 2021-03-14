@@ -1,0 +1,9 @@
+{
+	"type": "minecraft:smelting",
+	"ingredient": {
+		"item": "antiquated:cobblestone"
+	},
+	"result": "antiquated:stone",
+	"experience": 0,
+	"cookingtime": 200
+}

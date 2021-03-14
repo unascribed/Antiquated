@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.unascribed.antiquated.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "antiquated-refmap.json",
+  "mixins": [
+  	"MixinNoiseChunkGenerator",
+  	"MixinChunkGenerator",
+  	"MixinEntity",
+  	"MixinLivingEntity",
+  	"MixinPlayerEntity"
+  ],
+  "client": [
+  	"MixinScreen",
+  	"MixinCreativeInventoryScreen",
+  	"MixinInGameHud",
+  	"MixinInventoryScreen",
+  	"MixinHandledScreen"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

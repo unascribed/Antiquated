@@ -1,0 +1,16 @@
+{   "parent": "minecraft:block/cactus",
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "antiquated:block/cactus_side",
+        "bottom": "antiquated:block/cactus_bottom",
+        "top": "antiquated:block/cactus_top",
+        "side": "antiquated:block/cactus_side"
+    },
+    "display": {
+    	"ground": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 3, 0],
+            "scale":[ 0.5, 0.5, 0.5 ]
+        }
+    }
+}

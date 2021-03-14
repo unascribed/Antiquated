@@ -1,0 +1,16 @@
+{
+	"itemGroup.antiquated.main": "Antiquated",
+
+	"block.antiquated.stone": "Antique Stone",
+	"block.antiquated.cobblestone": "Antique Cobblestone",
+	"block.antiquated.dirt": "Antique Dirt",
+	"block.antiquated.grass": "Antique Grass",
+	"block.antiquated.wood": "Antique Wood",
+	"block.antiquated.leaves": "Antique Leaves",
+	"block.antiquated.gravel": "Antique Gravel",
+	"block.antiquated.sand": "Antique Sand",
+	"block.antiquated.cactus": "Antique Cactus",
+	
+	"biome.antiquated.valley": "Antique Valley",
+	"biome.antiquated.tundra": "Antique Tundra"
+}

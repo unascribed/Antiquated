@@ -1,0 +1,179 @@
+{
+	"silence": {
+		"sounds": [ "antiquated:silence" ]
+	},
+	"gravel.step": {
+		"sounds": [
+			"antiquated:step/gravel1",
+			"antiquated:step/gravel2",
+			"antiquated:step/gravel3",
+			"antiquated:step/gravel4"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"gravel.hit": {
+		"sounds": [
+			"antiquated:step/gravel1",
+			"antiquated:step/gravel2",
+			"antiquated:step/gravel3",
+			"antiquated:step/gravel4"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"grass.step": {
+		"sounds": [
+			"antiquated:step/grass1",
+			"antiquated:step/grass2",
+			"antiquated:step/grass3",
+			"antiquated:step/grass4",
+			"antiquated:step/grass5",
+			"antiquated:step/grass6"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"grass.hit": {
+		"sounds": [
+			"antiquated:step/grass1",
+			"antiquated:step/grass2",
+			"antiquated:step/grass3",
+			"antiquated:step/grass4",
+			"antiquated:step/grass5",
+			"antiquated:step/grass6"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"wood.step": {
+		"sounds": [
+			"antiquated:step/wood1",
+			"antiquated:step/wood2",
+			"antiquated:step/wood3",
+			"antiquated:step/wood4",
+			"antiquated:step/wood5",
+			"antiquated:step/wood6"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"wood.hit": {
+		"sounds": [
+			"antiquated:step/wood1",
+			"antiquated:step/wood2",
+			"antiquated:step/wood3",
+			"antiquated:step/wood4",
+			"antiquated:step/wood5",
+			"antiquated:step/wood6"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"sand.step": {
+		"sounds": [
+			"antiquated:step/sand1",
+			"antiquated:step/sand2",
+			"antiquated:step/sand3",
+			"antiquated:step/sand4",
+			"antiquated:step/sand5"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"sand.hit": {
+		"sounds": [
+			"antiquated:step/sand1",
+			"antiquated:step/sand2",
+			"antiquated:step/sand3",
+			"antiquated:step/sand4",
+			"antiquated:step/sand5"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"stone.step": {
+		"sounds": [
+			"antiquated:step/stone1",
+			"antiquated:step/stone2",
+			"antiquated:step/stone3",
+			"antiquated:step/stone4",
+			"antiquated:step/stone5",
+			"antiquated:step/stone6"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"stone.hit": {
+		"sounds": [
+			"antiquated:step/stone1",
+			"antiquated:step/stone2",
+			"antiquated:step/stone3",
+			"antiquated:step/stone4",
+			"antiquated:step/stone5",
+			"antiquated:step/stone6"
+		],
+		"subtitle": "subtitles.block.generic.hit"
+	},
+	"cow.ambient": {
+		"sounds": [
+			"antiquated:mob/cow/say1",
+			"antiquated:mob/cow/say2",
+			"antiquated:mob/cow/say3",
+			"antiquated:mob/cow/say4"
+		],
+		"subtitle": "subtitles.entity.cow.ambient"
+	},
+	"cow.hurt": {
+		"sounds": [
+			"antiquated:mob/cow/hurt1",
+			"antiquated:mob/cow/hurt2",
+			"antiquated:mob/cow/hurt3"
+		],
+		"subtitle": "subtitles.entity.cow.hurt"
+	},
+	"skeleton.ambient": {
+		"sounds": [
+			"antiquated:mob/skeleton/say1",
+			"antiquated:mob/skeleton/say2",
+			"antiquated:mob/skeleton/say3"
+		],
+		"subtitle": "subtitles.entity.skeleton.ambient"
+	},
+	"skeleton.hurt": {
+		"sounds": [
+			"antiquated:mob/skeleton/hurt1",
+			"antiquated:mob/skeleton/hurt2",
+			"antiquated:mob/skeleton/hurt3",
+			"antiquated:mob/skeleton/hurt4"
+		],
+		"subtitle": "subtitles.entity.skeleton.hurt"
+	},
+	"door.open": {
+		"sounds": [
+			"antiquated:random/door_open"
+		],
+		"subtitle": "subtitles.block.door.toggle"
+	},
+	"door.close": {
+		"sounds": [
+			"antiquated:random/door_close"
+		],
+		"subtitle": "subtitles.block.door.toggle"
+	},
+	"bow": {
+		"sounds": [
+			"antiquated:random/bow"
+		],
+		"subtitle": "subtitles.entity.arrow.shoot"
+	},
+	"bowhit": {
+		"sounds": [
+			"antiquated:random/bowhit1",
+			"antiquated:random/bowhit2",
+			"antiquated:random/bowhit3",
+			"antiquated:random/bowhit4"
+		],
+		"subtitle": "subtitles.entity.arrow.hit"
+	},
+	"explode": {
+		"sounds": [
+			"antiquated:random/explode1",
+			"antiquated:random/explode2",
+			"antiquated:random/explode3",
+			"antiquated:random/explode4"
+		],
+		"subtitle": "subtitles.entity.generic.explode"
+	}
+}

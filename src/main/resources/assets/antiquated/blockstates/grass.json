@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": {
+      "model": "antiquated:block/grass"
+    },
+    "snowy=true": {
+      "model": "antiquated:block/grass_snowy"
+    }
+  }
+}

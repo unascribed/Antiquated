@@ -1,0 +1,58 @@
+{
+	"parent": "minecraft:block/block",
+	"ambientocclusion": false,
+	"textures": {
+		"tex": "antiquated:block/leaves",
+		"particle": "antiquated:block/leaves"
+	},
+	"elements": [
+		{
+			"from": [16, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#tex"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#tex"}
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [0, 16, 16],
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#tex"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#tex"}
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 0],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#tex"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#tex"}
+			}
+		},
+		{
+			"from": [0, 0, 16],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#tex"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#tex"}
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [16, 0, 16],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#tex"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#tex"}
+			}
+		},
+		{
+			"from": [0, 16, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#tex"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#tex"}
+			}
+		}
+	]
+}

@@ -1,0 +1,13 @@
+{
+	"parent": "minecraft:block/cube",
+	"ambientocclusion": false,
+	"textures": {
+		"north": "antiquated:block/grass_side_snow",
+		"east": "antiquated:block/grass_side_snow",
+		"south": "antiquated:block/grass_side_snow",
+		"west": "antiquated:block/grass_side_snow",
+		"up": "antiquated:block/grass_top",
+		"down": "antiquated:block/dirt",
+		"particle": "antiquated:block/grass_side_snow"
+	}
+}

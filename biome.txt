@@ -1,0 +1,8 @@
+Disable mipmapping
+Lock sky light level to 15ths and change per-chunk
+Make sky light and block light the same color
+Disable spherical fog
+No experience or hunger
+Player makes oof noises
+Explosions make old noise and don't spawn crescent particles
+Can't sprint
