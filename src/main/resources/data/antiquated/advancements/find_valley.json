@@ -1,0 +1,36 @@
+{
+  "parent": "antiquated:root",
+  "display": {
+    "icon": {
+      "item": "antiquated:leaves"
+    },
+    "title": {
+      "translate": "advancements.antiquated.find_valley.title"
+    },
+    "description": {
+      "translate": "advancements.antiquated.find_valley.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 0
+  },
+  "criteria": {
+    "antiquated:valley": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "location": {
+          "biome": "antiquated:valley"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "antiquated:valley"
+    ]
+  ]
+}

@@ -19,7 +19,7 @@ public class MixinScreen {
 	
 	@Inject(at=@At("HEAD"), method="renderTooltip(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/item/ItemStack;II)V", cancellable=true)
 	protected void renderTooltip(MatrixStack matrices, ItemStack stack, int x, int y, CallbackInfo ci) {
-		if (Registry.ITEM.getId(stack.getItem()).getNamespace().equals("antiquated")) {
+		if (AntiquatedClient.isInAntiqueBiome() || Registry.ITEM.getId(stack.getItem()).getNamespace().equals("antiquated")) {
 			ci.cancel();
 		}
 	}

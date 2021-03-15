@@ -1,0 +1,26 @@
+{
+  "parent": "antiquated:find_valley",
+  "display": {
+    "icon": {
+      "item": "minecraft:barrier"
+    },
+    "title": {
+      "translate": "advancements.antiquated.lose_offhand.title"
+    },
+    "description": {
+      "translate": "advancements.antiquated.lose_offhand.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 0
+  },
+  "criteria": {
+    "minecraft:impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

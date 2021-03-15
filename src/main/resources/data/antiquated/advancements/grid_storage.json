@@ -1,0 +1,26 @@
+{
+  "parent": "antiquated:find_valley",
+  "display": {
+    "icon": {
+      "item": "minecraft:crafting_table"
+    },
+    "title": {
+      "translate": "advancements.antiquated.grid_storage.title"
+    },
+    "description": {
+      "translate": "advancements.antiquated.grid_storage.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 0
+  },
+  "criteria": {
+    "minecraft:impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

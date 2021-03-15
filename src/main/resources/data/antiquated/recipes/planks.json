@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "antiquated:wood"
+    }
+  ],
+  "result": {
+    "item": "antiquated:planks",
+    "count": 4
+  }
+}

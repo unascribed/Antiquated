@@ -175,5 +175,9 @@
 			"antiquated:random/explode4"
 		],
 		"subtitle": "subtitles.entity.generic.explode"
+	},
+	"hit": {
+		"sounds": [ "antiquated:hit" ],
+		"subtitle": "subtitles.entity.player.hurt"
 	}
 }

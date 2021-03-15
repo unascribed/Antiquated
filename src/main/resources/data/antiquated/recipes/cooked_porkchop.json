@@ -1,0 +1,9 @@
+{
+	"type": "minecraft:smelting",
+	"ingredient": {
+		"item": "antiquated:porkchop"
+	},
+	"result": "antiquated:cooked_porkchop",
+	"experience": 0,
+	"cookingtime": 200
+}

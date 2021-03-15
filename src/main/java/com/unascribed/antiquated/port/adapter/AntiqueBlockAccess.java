@@ -3,7 +3,7 @@ package com.unascribed.antiquated.port.adapter;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 
-public interface AlphaIBlockAccess {
+public interface AntiqueBlockAccess {
 
     int getBlockId(int x, int y, int z);
     

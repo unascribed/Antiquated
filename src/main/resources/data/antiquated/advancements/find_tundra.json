@@ -1,0 +1,36 @@
+{
+  "parent": "antiquated:root",
+  "display": {
+    "icon": {
+      "item": "minecraft:snow_block"
+    },
+    "title": {
+      "translate": "advancements.antiquated.find_tundra.title"
+    },
+    "description": {
+      "translate": "advancements.antiquated.find_tundra.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 0
+  },
+  "criteria": {
+    "antiquated:tundra": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "location": {
+          "biome": "antiquated:tundra"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "antiquated:tundra"
+    ]
+  ]
+}

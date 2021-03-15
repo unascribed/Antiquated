@@ -1,11 +1,13 @@
 package com.unascribed.antiquated.port;
 import java.util.*;
 
+import com.unascribed.antiquated.AntiqueChestBlockEntity;
+import com.unascribed.antiquated.init.AEntityTypes;
+import com.unascribed.antiquated.init.AItems;
 import com.unascribed.antiquated.port.adapter.AlphaBlock;
 import com.unascribed.antiquated.port.adapter.AlphaWorld;
 
 import net.minecraft.block.Material;
-import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
@@ -83,7 +85,7 @@ public class WorldGenDungeons extends WorldGenerator {
 					}
 					if (n14 == 1) {
 						world.setBlockId(n12, n2, n13, AlphaBlock.chest.blockID);
-						final ChestBlockEntity tileEntityChest = (ChestBlockEntity)world.getBlockEntity(n12, n2, n13);
+						final AntiqueChestBlockEntity tileEntityChest = (AntiqueChestBlockEntity)world.getBlockEntity(n12, n2, n13);
 						for (int n15 = 0; n15 < 8; ++n15) {
 							final ItemStack func_530_a = func_530_a(random);
 							if (func_530_a != null) {
@@ -124,7 +126,7 @@ public class WorldGenDungeons extends WorldGenerator {
 			return new ItemStack(Items.BUCKET);
 		}
 		if (nextInt == 7 && random.nextInt(100) == 0) {
-			return new ItemStack(Items.GOLDEN_APPLE); // TODO antique golden apple
+			return new ItemStack(AItems.GOLDEN_APPLE);
 		}
 		if (nextInt == 8 && random.nextInt(2) == 0) {
 			return new ItemStack(Items.REDSTONE, random.nextInt(4) + 1);
@@ -138,7 +140,7 @@ public class WorldGenDungeons extends WorldGenerator {
 	private EntityType<?> func_531_b(final Random random) {
 		final int nextInt = random.nextInt(4);
 		if (nextInt == 0) {
-			return EntityType.SKELETON;
+			return AEntityTypes.SKELETON;
 		}
 		if (nextInt == 1) {
 			return EntityType.ZOMBIE;

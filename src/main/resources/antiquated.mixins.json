@@ -9,14 +9,27 @@
   	"MixinChunkGenerator",
   	"MixinEntity",
   	"MixinLivingEntity",
-  	"MixinPlayerEntity"
+  	"MixinPlayerEntity",
+  	"MixinHungerManager",
+  	"MixinServerPlayNetworkHandler",
+  	"AccessorBlockEntityType",
+  	"MixinPlayerScreenHandler",
+  	"MixinMinecraftServer"
   ],
   "client": [
   	"MixinScreen",
   	"MixinCreativeInventoryScreen",
   	"MixinInGameHud",
   	"MixinInventoryScreen",
-  	"MixinHandledScreen"
+  	"MixinHandledScreen",
+  	"MixinItemEntityClient",
+  	"MixinGameMenuScreen",
+  	"MixinAbstractButtonWidget",
+  	"MixinClientPlayerInteractionManager",
+  	"MixinJsonUnbakedModel",
+  	"MixinBuiltChunk",
+  	"MixinClientWorld",
+  	"AccessorLightmapTextureManager"
   ],
   "injectors": {
     "defaultRequire": 1

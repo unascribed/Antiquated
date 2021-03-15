@@ -10,7 +10,39 @@
 	"block.antiquated.gravel": "Antique Gravel",
 	"block.antiquated.sand": "Antique Sand",
 	"block.antiquated.cactus": "Antique Cactus",
+	"block.antiquated.furnace": "Antique Furnace",
+	"block.antiquated.cobblestone_mossy": "Antique Moss Stone",
+	
+	"item.antiquated.porkchop": "Antique Raw Porkchop",
+	"item.antiquated.cooked_porkchop": "Antique Cooked Porkchop",
+	"item.antiquated.apple": "Antique Apple",
+	"item.antiquated.golden_apple": "Antique Golden Apple",
 	
 	"biome.antiquated.valley": "Antique Valley",
-	"biome.antiquated.tundra": "Antique Tundra"
+	"biome.antiquated.tundra": "Antique Tundra",
+	
+	"entity.antiquated.pig": "Antique Pig",
+	
+	"menu.antiquated.returnToGame": "Back to game",
+	"menu.antiquated.returnToMenu": "Save and quit to title",
+	"menu.antiquated.disconnect": "Disconnect",
+	"menu.antiquated.game": "Game menu",
+	
+	"advancements.antiquated.root.title": "Antiquated",
+	"advancements.antiquated.root.description": "A land untouched by time",
+	
+	"advancements.antiquated.find_valley.title": "Blast from the Past",
+	"advancements.antiquated.find_valley.description": "Discover the Antique Valley",
+	
+	"advancements.antiquated.find_tundra.title": "Frozen in Time",
+	"advancements.antiquated.find_tundra.description": "Discover the Antique Tundra",
+	
+	"advancements.antiquated.house.title": "Home Sweet Home",
+	"advancements.antiquated.house.description": "Spawn in an Antique biome, inside the Indev House",
+	
+	"advancements.antiquated.lose_offhand.title": "Didn't Get The Memo",
+	"advancements.antiquated.lose_offhand.description": "Attempt to hold something in your forbidden off-hand in an Antique biome",
+	
+	"advancements.antiquated.grid_storage.title": "Secret Pockets",
+	"advancements.antiquated.grid_storage.description": "Store something in your crafting grid"
 }

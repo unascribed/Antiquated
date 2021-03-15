@@ -1,14 +1,26 @@
 package com.unascribed.antiquated.mixin;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.unascribed.antiquated.Antiquated;
+import com.unascribed.antiquated.entity.AntiqueCreature;
+import com.unascribed.antiquated.entity.AntiqueMonster;
+import com.unascribed.antiquated.init.ASounds;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.World;
 
 @Mixin(PlayerEntity.class)
 public class MixinPlayerEntity {
@@ -20,4 +32,35 @@ public class MixinPlayerEntity {
 		}
 	}
 	
+	@Redirect(at=@At(value="INVOKE", target="net/minecraft/world/World.playSound"), method="attack")
+	public void playAttackSound(World subject, @Nullable PlayerEntity player, double x, double y, double z, SoundEvent sound, SoundCategory category, float volume, float pitch, Entity target) {
+		if (target instanceof AntiqueCreature || target instanceof AntiqueMonster) {
+			return;
+		}
+		subject.playSound(player, x, y, z, sound, category, volume, pitch);
+	}
+	
+	@Redirect(at=@At(value="INVOKE", target="net/minecraft/server/world/ServerWorld.spawnParticles"), method="attack")
+	public <T extends ParticleEffect> int spawnAttackParticles(ServerWorld subject, T particle, double x, double y, double z, int count, double deltaX, double deltaY, double deltaZ, double speed, Entity target) {
+		if (target instanceof AntiqueCreature || target instanceof AntiqueMonster) {
+			return 0;
+		}
+		return subject.spawnParticles(particle, x, y, z, count, deltaX, deltaY, deltaZ, speed);
+	}
+	
+	@Inject(at=@At("HEAD"), method="getHurtSound(Lnet/minecraft/entity/damage/DamageSource;)Lnet/minecraft/sound/SoundEvent;",
+			cancellable=true)
+	public void getHurtSound(DamageSource src, CallbackInfoReturnable<SoundEvent> ci) {
+		if (Antiquated.isInAntiqueBiome((Entity)(Object)this)) {
+			ci.setReturnValue(ASounds.HIT);
+		}
+	}
+	
+	@Inject(at=@At("HEAD"), method="addCritParticles",
+			cancellable=true)
+	public void addCritParticles(Entity target, CallbackInfo ci) {
+		if (target instanceof AntiqueCreature || target instanceof AntiqueMonster) {
+			ci.cancel();
+		}
+	}
 }

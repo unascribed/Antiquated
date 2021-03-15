@@ -2,51 +2,63 @@ package com.unascribed.antiquated.port;
 
 import net.minecraft.util.math.MathHelper;
 
-public class PathPoint {
-	public final int x;
-	public final int y;
-	public final int z;
-	public final int field_1715_d;
-	int field_1714_e;
-	float field_1713_f;
-	float field_1712_g;
-	float field_1711_h;
-	PathPoint field_1710_i;
-	public boolean field_1709_j;
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) braces deadcode
 
-	public PathPoint(final int field_1718_a, final int field_1717_b, final int field_1716_c) {
-		super();
-		field_1714_e = -1;
-		field_1709_j = false;
-		this.x = field_1718_a;
-		this.y = field_1717_b;
-		this.z = field_1716_c;
-		field_1715_d = (field_1718_a | field_1717_b << 10 | field_1716_c << 20);
-	}
 
-	public float func_1180_a(final PathPoint pathPoint) {
-		final float n = pathPoint.x - x;
-		final float n2 = pathPoint.y - y;
-		final float n3 = pathPoint.z - z;
-		return MathHelper.sqrt(n * n + n2 * n2 + n3 * n3);
-	}
+public class PathPoint
+{
 
-	@Override
-	public boolean equals(final Object o) {
-		return ((PathPoint)o).field_1715_d == field_1715_d;
-	}
+    public PathPoint(int i, int j, int k)
+    {
+        index = -1;
+        isFirst = false;
+        xCoord = i;
+        yCoord = j;
+        zCoord = k;
+        hash = i | j << 10 | k << 20;
+    }
 
-	@Override
-	public int hashCode() {
-		return field_1715_d;
-	}
+    public float distanceTo(PathPoint pathpoint)
+    {
+        float f = pathpoint.xCoord - xCoord;
+        float f1 = pathpoint.yCoord - yCoord;
+        float f2 = pathpoint.zCoord - zCoord;
+        return MathHelper.sqrt(f * f + f1 * f1 + f2 * f2);
+    }
 
-	public boolean func_1179_a() {
-		return field_1714_e >= 0;
-	}
+    @Override
+	public boolean equals(Object obj)
+    {
+        return ((PathPoint)obj).hash == hash;
+    }
 
-	@Override
-	public String toString() {
-		return x + ", " + y + ", " + z;
-	}
+    @Override
+	public int hashCode()
+    {
+        return hash;
+    }
+
+    public boolean isAssigned()
+    {
+        return index >= 0;
+    }
+
+    @Override
+	public String toString()
+    {
+        return (new StringBuilder()).append(xCoord).append(", ").append(yCoord).append(", ").append(zCoord).toString();
+    }
+
+    public final int xCoord;
+    public final int yCoord;
+    public final int zCoord;
+    public final int hash;
+    int index;
+    float totalPathDistance;
+    float distanceToNext;
+    float distanceToTarget;
+    PathPoint previous;
+    public boolean isFirst;
 }

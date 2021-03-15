@@ -1,0 +1,42 @@
+{
+  "display": {
+    "icon": {
+      "item": "antiquated:apple"
+    },
+    "title": {
+      "translate": "advancements.antiquated.root.title"
+    },
+    "description": {
+      "translate": "advancements.antiquated.root.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "antiquated:textures/block/cobblestone.png"
+  },
+  "criteria": {
+    "antiquated:valley": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "location": {
+          "biome": "antiquated:valley"
+        }
+      }
+    },
+    "antiquated:tundra": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "location": {
+          "biome": "antiquated:tundra"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "antiquated:valley",
+      "antiquated:tundra"
+    ]
+  ]
+}
