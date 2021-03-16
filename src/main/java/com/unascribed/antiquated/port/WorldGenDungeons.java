@@ -8,6 +8,8 @@ import com.unascribed.antiquated.init.AItems;
 import com.unascribed.antiquated.port.adapter.AlphaBlock;
 import com.unascribed.antiquated.port.adapter.AlphaWorld;
 
+import com.google.common.hash.Hashing;
+
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
@@ -97,6 +99,16 @@ public class WorldGenDungeons extends WorldGenerator {
 							final ItemStack func_530_a = func_530_a(random);
 							if (func_530_a != null) {
 								tileEntityChest.setStack(random.nextInt(tileEntityChest.size()), func_530_a);
+							} else {
+								// use an independent random for new loot to prevent seed desync
+								Random rand = new Random(Hashing.murmur3_128((int)world.randomSeed).newHasher().putInt(n).putInt(n2).putInt(n3).hash().asLong());
+								if (rand.nextInt(10) == 0) {
+									tileEntityChest.setStack(rand.nextInt(tileEntityChest.size()),
+											EnchantedBookItem.forEnchantment(new EnchantmentLevelEntry(AEnchantments.LEGACY_CURSE, 1)));
+								} else if (rand.nextInt(10) == 0) {
+									tileEntityChest.setStack(rand.nextInt(tileEntityChest.size()),
+											new ItemStack(AItems.RECORD_CALM4));
+								}
 							}
 						}
 						break;
@@ -115,6 +127,8 @@ public class WorldGenDungeons extends WorldGenerator {
 	}
 
 	private ItemStack func_530_a(final Random random) {
+		// YOU CAN'T PUT MORE LOOT HERE, it will desync the seed
+		// See above for extra loot
 		final int nextInt = random.nextInt(11);
 		if (nextInt == 0) {
 			return new ItemStack(Items.SADDLE);
@@ -143,17 +157,8 @@ public class WorldGenDungeons extends WorldGenerator {
 		if (nextInt == 8 && random.nextInt(2) == 0) {
 			return new ItemStack(Items.REDSTONE, random.nextInt(4) + 1);
 		}
-		if (nextInt == 9) {
-			int lootSelector = random.nextInt(10);
-			// must always be called to advance the RNG properly, otherwise seed desync will occur
-			boolean lootSelector2 = random.nextBoolean();
-			if (lootSelector == 0) {
-				return new ItemStack(lootSelector2 ? Items.MUSIC_DISC_13 : Items.MUSIC_DISC_CAT);
-			} else if (lootSelector == 1) {
-				return EnchantedBookItem.forEnchantment(new EnchantmentLevelEntry(AEnchantments.LEGACY_CURSE, 1));
-			} else if (lootSelector == 2) {
-				return new ItemStack(AItems.RECORD_CALM4);
-			}
+		if (nextInt == 9 && random.nextInt(10) == 0) {
+			return new ItemStack(random.nextBoolean() ? Items.MUSIC_DISC_13 : Items.MUSIC_DISC_CAT);
 		}
 		return null;
 	}
