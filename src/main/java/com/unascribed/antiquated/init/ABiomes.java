@@ -8,7 +8,8 @@ import net.minecraft.world.biome.GenerationSettings;
 import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.biome.Biome.Precipitation;
-import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilders;
+import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 public class ABiomes {
 
@@ -22,8 +23,8 @@ public class ABiomes {
 			.temperature(0.8f)
 			.downfall(0.4f)
 			.effects(new BiomeEffects.Builder()
-					.waterColor(4159204)
-					.waterFogColor(329011)
+					.waterColor(0x3545ff)
+					.waterFogColor(0x3545ff)
 					.fogColor(12638463)
 					.skyColor(getSkyColor(0.8f))
 					.moodSound(BiomeMoodSound.CAVE)
@@ -32,7 +33,8 @@ public class ABiomes {
 					.playerSpawnFriendly()
 				.build())
 			.generationSettings(new GenerationSettings.Builder()
-					.surfaceBuilder(ConfiguredSurfaceBuilders.NOPE)
+					// not used for generation, but is used to decide where the player can spawn
+					.surfaceBuilder(SurfaceBuilder.NOPE.withConfig(new TernarySurfaceConfig(ABlocks.GRASS.getDefaultState(), ABlocks.DIRT.getDefaultState(), ABlocks.DIRT.getDefaultState())))
 				.build())
 			.build();
 	
@@ -44,8 +46,8 @@ public class ABiomes {
 			.temperature(0f)
 			.downfall(0.5f)
 			.effects(new BiomeEffects.Builder()
-					.waterColor(4159204)
-					.waterFogColor(329011)
+					.waterColor(0x3545ff)
+					.waterFogColor(0x3545ff)
 					.fogColor(12638463)
 					.skyColor(getSkyColor(0.8f))
 					.moodSound(BiomeMoodSound.CAVE)
@@ -54,7 +56,8 @@ public class ABiomes {
 					.playerSpawnFriendly()
 				.build())
 			.generationSettings(new GenerationSettings.Builder()
-					.surfaceBuilder(ConfiguredSurfaceBuilders.NOPE)
+					// not used for generation, but is used to decide where the player can spawn
+					.surfaceBuilder(SurfaceBuilder.NOPE.withConfig(new TernarySurfaceConfig(ABlocks.GRASS.getDefaultState(), ABlocks.DIRT.getDefaultState(), ABlocks.DIRT.getDefaultState())))
 				.build())
 			.build();
 	 

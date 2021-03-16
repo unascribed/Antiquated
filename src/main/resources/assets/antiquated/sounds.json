@@ -179,5 +179,13 @@
 	"hit": {
 		"sounds": [ "antiquated:hit" ],
 		"subtitle": "subtitles.entity.player.hurt"
+	},
+	"calm4": {
+		"sounds": [
+			{
+				"name": "antiquated:calm4",
+				"stream": true
+			}
+		]
 	}
 }

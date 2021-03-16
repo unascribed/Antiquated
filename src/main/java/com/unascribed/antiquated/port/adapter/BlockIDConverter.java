@@ -17,13 +17,17 @@ public class BlockIDConverter {
 		if (id == 74) id = 73;
 		if (id == 76) id = 75;
 		if (id == 62) id = 61;
-		// Jasmine said so
-		return MAPPING.getOrDefault(id, Blocks.MAGENTA_GLAZED_TERRACOTTA).getDefaultState();
+		Block b = QUICK_MAPPING[id];
+		if (b == null) b = Blocks.MAGENTA_GLAZED_TERRACOTTA; // Jasmine said so
+		return b.getDefaultState();
 	}
 	
 	public static int convert(BlockState state) {
+		if (state.isAir()) return 0;
 		return MAPPING.inverse().getOrDefault(state.getBlock(), 99);
 	}
+	
+	private static final Block[] QUICK_MAPPING = new Block[92];
 	
 	// TODO use Antique block variants
 	private static final BiMap<Integer, Block> MAPPING = ImmutableBiMap.<Integer, Block>builder()
@@ -32,8 +36,8 @@ public class BlockIDConverter {
 			.put(2, ABlocks.GRASS)
 			.put(3, ABlocks.DIRT)
 			.put(4, ABlocks.COBBLESTONE)
-			.put(5, Blocks.OAK_PLANKS)
-			.put(6, Blocks.OAK_SAPLING)
+			.put(5, ABlocks.PLANKS)
+			.put(6, ABlocks.SAPLING)
 			.put(7, Blocks.BEDROCK)
 			.put(8, Blocks.WATER)
 			.put(10, Blocks.LAVA)
@@ -47,8 +51,8 @@ public class BlockIDConverter {
 			.put(19, Blocks.SPONGE)
 			.put(20, Blocks.GLASS)
 			.put(35, Blocks.WHITE_WOOL)
-			.put(37, Blocks.DANDELION)
-			.put(38, Blocks.POPPY)
+			.put(37, ABlocks.DANDELION)
+			.put(38, ABlocks.ROSE)
 			.put(39, Blocks.BROWN_MUSHROOM)
 			.put(40, Blocks.RED_MUSHROOM)
 			.put(41, Blocks.GOLD_BLOCK)
@@ -93,6 +97,14 @@ public class BlockIDConverter {
 			.put(83, Blocks.SUGAR_CANE)
 			.put(84, Blocks.JUKEBOX)
 			.put(85, Blocks.OAK_FENCE)
+			.put(90, ABlocks.WOOD_OLD)
+			.put(91, ABlocks.LEAVES_OLD)
 			.build();
+	
+	static {
+		for (int i = 0; i < QUICK_MAPPING.length; i++) {
+			QUICK_MAPPING[i] = MAPPING.get(i);
+		}
+	}
 
 }

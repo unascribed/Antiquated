@@ -31,6 +31,10 @@ public class AlphaWorld implements AntiqueBlockAccess {
 	public float spawnY;
 	public float spawnZ;
 	
+	public int heightLimit = 128;
+
+	public boolean isolated;
+	
 	public AlphaWorld(WorldAccess delegate, long seed) {
 		this.delegate = delegate;
 		this.randomSeed = seed;
@@ -63,12 +67,8 @@ public class AlphaWorld implements AntiqueBlockAccess {
 
 	public void setBlockId(int x, int y, int z, int id) {
 		delegate.setBlockState(mut.set(x, y, z), BlockIDConverter.convert(id), 3);
-		if (delegate.getBlockState(mut.set(x, y-1, z)).getBlock() == ABlocks.GRASS) {
-			if (id == AlphaBlock.snow.blockID) {
-				delegate.setBlockState(mut, ABlocks.GRASS.getDefaultState().with(GrassBlock.SNOWY, true), 3);
-			} else {
-				delegate.setBlockState(mut, ABlocks.GRASS.getDefaultState().with(GrassBlock.SNOWY, false), 3);
-			}
+		if (id == AlphaBlock.snow.blockID && delegate.getBlockState(mut.set(x, y-1, z)).getBlock() == ABlocks.GRASS) {
+			delegate.setBlockState(mut, ABlocks.GRASS.getDefaultState().with(GrassBlock.SNOWY, true), 3);
 		}
 	}
 
@@ -86,6 +86,10 @@ public class AlphaWorld implements AntiqueBlockAccess {
 
 	public void spawnEntity(Entity e) {
 		delegate.spawnEntity(e);
+	}
+
+	public int getHeightLimit() {
+		return heightLimit;
 	}
 	
 }

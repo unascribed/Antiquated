@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.unascribed.antiquated.Antiquated;
 import com.unascribed.antiquated.port.Alpha112ChunkGenerator;
 import com.unascribed.antiquated.port.adapter.AlphaWorld;
 
@@ -44,6 +45,7 @@ public abstract class MixinChunkGenerator {
 						if (DEBUG) System.out.println("found alpha biome, populate");
 						AlphaWorld w = new AlphaWorld(region, worldSeed);
 						w.winterMode = b.getCategory() == Category.ICY;
+						w.isolated = Antiquated.isAntiqueWorld(region.toServerWorld().getServer().getOverworld());
 						new Alpha112ChunkGenerator(w, worldSeed).populate(cp.x, cp.z);
 						if (DEBUG) System.out.println("alpha populator completed");
 						break out;

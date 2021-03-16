@@ -2,6 +2,7 @@ package com.unascribed.antiquated.port;
 import java.util.*;
 
 import com.unascribed.antiquated.AntiqueChestBlockEntity;
+import com.unascribed.antiquated.init.AEnchantments;
 import com.unascribed.antiquated.init.AEntityTypes;
 import com.unascribed.antiquated.init.AItems;
 import com.unascribed.antiquated.port.adapter.AlphaBlock;
@@ -9,7 +10,9 @@ import com.unascribed.antiquated.port.adapter.AlphaWorld;
 
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
+import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
@@ -85,7 +88,11 @@ public class WorldGenDungeons extends WorldGenerator {
 					}
 					if (n14 == 1) {
 						world.setBlockId(n12, n2, n13, AlphaBlock.chest.blockID);
-						final AntiqueChestBlockEntity tileEntityChest = (AntiqueChestBlockEntity)world.getBlockEntity(n12, n2, n13);
+						AntiqueChestBlockEntity tileEntityChest = (AntiqueChestBlockEntity)world.getBlockEntity(n12, n2, n13);
+						if (tileEntityChest == null) {
+							tileEntityChest = new AntiqueChestBlockEntity();
+							world.delegate.getChunk(world.mut.set(n12, n2, n13)).setBlockEntity(world.mut, tileEntityChest);
+						}
 						for (int n15 = 0; n15 < 8; ++n15) {
 							final ItemStack func_530_a = func_530_a(random);
 							if (func_530_a != null) {
@@ -98,7 +105,12 @@ public class WorldGenDungeons extends WorldGenerator {
 			}
 		}
 		world.setBlockId(n, n2, n3, AlphaBlock.mobSpawner.blockID);
-		((MobSpawnerBlockEntity)world.getBlockEntity(n, n2, n3)).getLogic().setEntityId(func_531_b(random));
+		MobSpawnerBlockEntity msbe = ((MobSpawnerBlockEntity)world.getBlockEntity(n, n2, n3));
+		if (msbe == null) {
+			msbe = new MobSpawnerBlockEntity();
+			world.delegate.getChunk(world.mut.set(n, n2, n3)).setBlockEntity(world.mut, msbe);
+		}
+		msbe.getLogic().setEntityId(func_531_b(random));
 		return true;
 	}
 
@@ -111,7 +123,7 @@ public class WorldGenDungeons extends WorldGenerator {
 			return new ItemStack(Items.IRON_INGOT, random.nextInt(4) + 1);
 		}
 		if (nextInt == 2) {
-			return new ItemStack(Items.BREAD);
+			return new ItemStack(AItems.APPLE);
 		}
 		if (nextInt == 3) {
 			return new ItemStack(Items.WHEAT, random.nextInt(4) + 1);
@@ -131,8 +143,17 @@ public class WorldGenDungeons extends WorldGenerator {
 		if (nextInt == 8 && random.nextInt(2) == 0) {
 			return new ItemStack(Items.REDSTONE, random.nextInt(4) + 1);
 		}
-		if (nextInt == 9 && random.nextInt(10) == 0) {
-			return new ItemStack(random.nextBoolean() ? Items.MUSIC_DISC_13 : Items.MUSIC_DISC_CAT);
+		if (nextInt == 9) {
+			int lootSelector = random.nextInt(10);
+			// must always be called to advance the RNG properly, otherwise seed desync will occur
+			boolean lootSelector2 = random.nextBoolean();
+			if (lootSelector == 0) {
+				return new ItemStack(lootSelector2 ? Items.MUSIC_DISC_13 : Items.MUSIC_DISC_CAT);
+			} else if (lootSelector == 1) {
+				return EnchantedBookItem.forEnchantment(new EnchantmentLevelEntry(AEnchantments.LEGACY_CURSE, 1));
+			} else if (lootSelector == 2) {
+				return new ItemStack(AItems.RECORD_CALM4);
+			}
 		}
 		return null;
 	}
@@ -143,14 +164,14 @@ public class WorldGenDungeons extends WorldGenerator {
 			return AEntityTypes.SKELETON;
 		}
 		if (nextInt == 1) {
-			return EntityType.ZOMBIE;
+			return AEntityTypes.ZOMBIE;
 		}
 		if (nextInt == 2) {
-			return EntityType.ZOMBIE;
+			return AEntityTypes.ZOMBIE;
 		}
 		if (nextInt == 3) {
-			return EntityType.SPIDER;
+			return AEntityTypes.SPIDER;
 		}
-		return EntityType.PIG;
+		return AEntityTypes.PIG;
 	}
 }

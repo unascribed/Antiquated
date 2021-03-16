@@ -4,6 +4,7 @@ import com.unascribed.antiquated.AncientFoodItem;
 import com.unascribed.antiquated.Antiquated;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.MusicDiscItem;
 
 public class AItems {
 
@@ -22,5 +23,9 @@ public class AItems {
 	
 	public static final Item LEATHER = new Item(new Item.Settings()
 			.group(Antiquated.GROUP));
+	
+	public static final Item RECORD_CALM4 = new MusicDiscItem(4, ASounds.CALM4, new Item.Settings()
+			.maxCount(1)
+			.group(Antiquated.GROUP)) {};
 	
 }

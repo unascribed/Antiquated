@@ -13,7 +13,7 @@ public class WorldGenTrees extends WorldGenerator {
 	public boolean populate(final AlphaWorld world, final Random random, final int n, final int n2, final int n3) {
 		final int n4 = random.nextInt(3) + 4;
 		int n5 = 1;
-		if (n2 < 1 || n2 + n4 + 1 > 128) {
+		if (n2 < 1 || n2 + n4 + 1 > world.getHeightLimit()) {
 			return false;
 		}
 		for (int i = n2; i <= n2 + 1 + n4; ++i) {
@@ -26,7 +26,7 @@ public class WorldGenTrees extends WorldGenerator {
 			}
 			for (int n7 = n - n6; n7 <= n + n6 && n5 != 0; ++n7) {
 				for (int n8 = n3 - n6; n8 <= n3 + n6 && n5 != 0; ++n8) {
-					if (i >= 0 && i < 128) {
+					if (i >= 0 && i < world.getHeightLimit()) {
 						final int func_600_a = world.getBlockId(n7, i, n8);
 						if (func_600_a != 0 && func_600_a != AlphaBlock.leaves.blockID) {
 							n5 = 0;
@@ -42,7 +42,7 @@ public class WorldGenTrees extends WorldGenerator {
 			return false;
 		}
 		final int func_600_a2 = world.getBlockId(n, n2 - 1, n3);
-		if ((func_600_a2 != AlphaBlock.grass.blockID && func_600_a2 != AlphaBlock.dirt.blockID) || n2 >= 128 - n4 - 1) {
+		if ((func_600_a2 != AlphaBlock.grass.blockID && func_600_a2 != AlphaBlock.dirt.blockID) || n2 >= world.getHeightLimit() - n4 - 1) {
 			return false;
 		}
 		world.setBlockId(n, n2 - 1, n3, AlphaBlock.dirt.blockID);

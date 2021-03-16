@@ -14,7 +14,13 @@
   	"MixinServerPlayNetworkHandler",
   	"AccessorBlockEntityType",
   	"MixinPlayerScreenHandler",
-  	"MixinMinecraftServer"
+  	"MixinMinecraftServer",
+  	"MixinItemStack",
+  	"MixinSlot",
+  	"AccessorBiomeArray",
+  	"AccessorIntRule",
+  	"MixinItemEntity",
+  	"MixinServerPlayerEntity"
   ],
   "client": [
   	"MixinScreen",
@@ -29,7 +35,8 @@
   	"MixinJsonUnbakedModel",
   	"MixinBuiltChunk",
   	"MixinClientWorld",
-  	"AccessorLightmapTextureManager"
+  	"AccessorLightmapTextureManager",
+  	"MixinWorldRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

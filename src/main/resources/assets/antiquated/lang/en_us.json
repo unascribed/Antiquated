@@ -12,21 +12,37 @@
 	"block.antiquated.cactus": "Antique Cactus",
 	"block.antiquated.furnace": "Antique Furnace",
 	"block.antiquated.cobblestone_mossy": "Antique Moss Stone",
+	"block.antiquated.sapling": "Ancient Sapling",
+	"block.antiquated.wood_old": "Prehistoric Wood",
+	"block.antiquated.leaves_old": "Prehistoric Leaves",
+	"block.antiquated.sapling_old": "Prehistoric Sapling",
+	"block.antiquated.planks": "Ancient Planks",
+	"block.antiquated.planks_old": "Prehistoric Planks",
 	
 	"item.antiquated.porkchop": "Antique Raw Porkchop",
 	"item.antiquated.cooked_porkchop": "Antique Cooked Porkchop",
 	"item.antiquated.apple": "Antique Apple",
 	"item.antiquated.golden_apple": "Antique Golden Apple",
+	"item.antiquated.record_calm4": "Music Disc",
+	"item.antiquated.record_calm4.desc": "Markus Alexei - Magnetic Circuit (aka calm4.ogg)",
 	
 	"biome.antiquated.valley": "Antique Valley",
 	"biome.antiquated.tundra": "Antique Tundra",
 	
 	"entity.antiquated.pig": "Antique Pig",
+	"entity.antiquated.cow": "Antique Cow",
+	"entity.antiquated.skeleton": "Antique Skeleton",
+	"entity.antiquated.zombie": "Antique Zombie",
+	"entity.antiquated.spider": "Antique Spider",
+	
+	"enchantment.antiquated.legacy_curse": "Curse of Legacy",
 	
 	"menu.antiquated.returnToGame": "Back to game",
 	"menu.antiquated.returnToMenu": "Save and quit to title",
 	"menu.antiquated.disconnect": "Disconnect",
 	"menu.antiquated.game": "Game menu",
+	
+	"container.antiquated.chestDouble": "Large chest",
 	
 	"advancements.antiquated.root.title": "Antiquated",
 	"advancements.antiquated.root.description": "A land untouched by time",

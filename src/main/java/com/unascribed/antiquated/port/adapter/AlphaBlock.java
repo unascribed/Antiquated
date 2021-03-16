@@ -46,6 +46,9 @@ public class AlphaBlock {
 	public static final AlphaBlock clay = new AlphaBlock(82);
 	public static final AlphaBlock reed = new AlphaBlock(83);
 	
+	public static final AlphaBlock oldWood = new AlphaBlock(90);
+	public static final AlphaBlock oldLeaves = new AlphaBlock(91);
+	
 	public final int blockID;
 	
 	public AlphaBlock(int id) {

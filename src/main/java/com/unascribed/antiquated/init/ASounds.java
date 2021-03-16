@@ -40,6 +40,8 @@ public class ASounds {
 	
 	public static final SoundEvent HIT = new SoundEvent(new Identifier("antiquated", "hit"));
 	
+	public static final SoundEvent CALM4 = new SoundEvent(new Identifier("antiquated", "calm4"));
+	
 	public static final BlockSoundGroup GRASS_SOUNDS = new BlockSoundGroup(1, 1, SoundEvents.BLOCK_GRASS_BREAK, GRASS_STEP, SoundEvents.BLOCK_GRASS_PLACE, GRASS_HIT, SILENCE);
 	public static final BlockSoundGroup GRAVEL_SOUNDS = new BlockSoundGroup(1, 1, SoundEvents.BLOCK_GRAVEL_BREAK, GRAVEL_STEP, SoundEvents.BLOCK_GRAVEL_PLACE, GRAVEL_HIT, SILENCE);
 	public static final BlockSoundGroup SAND_SOUNDS = new BlockSoundGroup(1, 1, SoundEvents.BLOCK_SAND_BREAK, SAND_STEP, SoundEvents.BLOCK_SAND_PLACE, SAND_HIT, SILENCE);

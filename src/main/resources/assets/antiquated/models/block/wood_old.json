@@ -1,0 +1,13 @@
+{
+	"parent": "minecraft:block/cube",
+	"ambientocclusion": false,
+	"textures": {
+		"north": "antiquated:block/wood_old_side",
+		"east": "antiquated:block/wood_old_side",
+		"south": "antiquated:block/wood_old_side",
+		"west": "antiquated:block/wood_old_side",
+		"up": "antiquated:block/wood_old_pole",
+		"down": "antiquated:block/wood_old_pole",
+		"particle": "antiquated:block/wood_old_side"
+	}
+}

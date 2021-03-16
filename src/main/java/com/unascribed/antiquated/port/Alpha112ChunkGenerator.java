@@ -55,7 +55,8 @@ public class Alpha112ChunkGenerator {
 
 	private void func_546_a(final int n, final int n2, final byte[] array) {
 		final int n3 = 4;
-		final int n4 = 64;
+		// move sea level down a block in mixed biome worlds to match the new sea level
+		final int seaLevel = world.isolated ? 64 : 63;
 		final int n5 = n3 + 1;
 		final int n6 = 17;
 		final int n7 = n3 + 1;
@@ -86,8 +87,8 @@ public class Alpha112ChunkGenerator {
 							final double n27 = (n19 - n18) * n25;
 							for (int n28 = 0; n28 < 4; ++n28) {
 								int n29 = 0;
-								if (k * 8 + l < n4) {
-									if (this.world.winterMode && k * 8 + l >= n4 - 1) {
+								if (k * 8 + l < seaLevel) {
+									if (this.world.winterMode && k * 8 + l >= seaLevel - 1) {
 										n29 = AlphaBlock.ice.blockID;
 									}
 									else {
@@ -115,7 +116,7 @@ public class Alpha112ChunkGenerator {
 	}
 
 	private void func_545_b(final int n, final int n2, final byte[] array) {
-		final int n3 = 64;
+		final int seaLevel = world.isolated ? 64 : 63;
 		final double n4 = 0.03125;
 		this.field_905_r = this.field_909_n.func_807_a(this.field_905_r, n * 16, n2 * 16, 0.0, 16, 16, 1, n4, n4, 1.0);
 		this.field_904_s = this.field_909_n.func_807_a(this.field_904_s, n2 * 16, 109.0134, n * 16, 16, 1, 16, n4, 1.0, n4);
@@ -144,7 +145,7 @@ public class Alpha112ChunkGenerator {
 									b3 = 0;
 									b4 = (byte)AlphaBlock.stone.blockID;
 								}
-								else if (y >= n3 - 4 && y <= n3 + 1) {
+								else if (y >= seaLevel - 4 && y <= seaLevel + 1) {
 									b3 = (byte)AlphaBlock.grass.blockID;
 									b4 = (byte)AlphaBlock.dirt.blockID;
 									if (b2) {
@@ -160,11 +161,11 @@ public class Alpha112ChunkGenerator {
 										b4 = (byte)AlphaBlock.sand.blockID;
 									}
 								}
-								if (y < n3 && b3 == 0) {
+								if (y < seaLevel && b3 == 0) {
 									b3 = (byte)AlphaBlock.waterMoving.blockID;
 								}
 								n6 = n5;
-								if (y >= n3 - 1) {
+								if (y >= seaLevel - 1) {
 									array[n7] = b3;
 								}
 								else {
@@ -292,6 +293,14 @@ public class Alpha112ChunkGenerator {
 		int startX = cX * 16;
 		int startZ = cZ * 16;
 		this.rand.setSeed(this.world.randomSeed);
+		// 8 more dungeon possibilities, to make them more common as antique biomes may be small
+		// reseed the random generator ourselves so we don't mess up world seeds if people try them
+		this.rand.setSeed((cX * (this.rand.nextLong() / 2L * 2L + 1L) + cZ * (this.rand.nextLong() / 2L * 2L + 1L) ^ this.world.randomSeed) * 37);
+		for (int i = 0; i < 8; ++i) {
+			new WorldGenDungeons().populate(this.world, this.rand, startX + this.rand.nextInt(16) + 8, this.rand.nextInt(128), startZ + this.rand.nextInt(16) + 8);
+		}
+		
+		this.rand.setSeed(this.world.randomSeed);
 		this.rand.setSeed(cX * (this.rand.nextLong() / 2L * 2L + 1L) + cZ * (this.rand.nextLong() / 2L * 2L + 1L) ^ this.world.randomSeed);
 		for (int i = 0; i < 8; ++i) {
 			new WorldGenDungeons().populate(this.world, this.rand, startX + this.rand.nextInt(16) + 8, this.rand.nextInt(128), startZ + this.rand.nextInt(16) + 8);
@@ -329,8 +338,12 @@ public class Alpha112ChunkGenerator {
 			++n11;
 		}
 		WorldGenerator worldGenerator = new WorldGenTrees();
-		if (this.rand.nextInt(10) == 0) {
+		int treeDecider = this.rand.nextInt(10);
+		if (treeDecider == 0) {
 			worldGenerator = new WorldGenBigTree();
+		} else if (treeDecider == 1) {
+			// piggyback on the big tree number so we don't desync the seed
+			worldGenerator = new WorldGenNotchTree();
 		}
 		for (int n12 = 0; n12 < n11; ++n12) {
 			final int n13 = startX + this.rand.nextInt(16) + 8;

@@ -12,8 +12,7 @@ public class AntiqueChestBlockEntity extends ChestBlockEntity {
 	
 	@Override
 	public int getMaxCountPerStack() {
-		// can't stack to 99 because the engine has had a max stack of 64 for so long that >64 broke at some point and nobody noticed or would have cared
-		return 64;
+		return 100;
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package com.unascribed.antiquated.mixin;
 
+import java.util.Arrays;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -7,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.unascribed.antiquated.Antiquated;
 import com.unascribed.antiquated.port.Alpha112ChunkGenerator;
 import com.unascribed.antiquated.port.adapter.AlphaWorld;
 
@@ -39,36 +42,31 @@ public abstract class MixinNoiseChunkGenerator extends ChunkGenerator {
 		final boolean DEBUG = false;
 		try {
 			if (DEBUG) System.out.println("buildSurface tail");
-			ProtoChunk alphaChunkWinter = null;
-			ProtoChunk alphaChunkNotWinter = null;
+			Biome biomeToReplaceWith = null;
 			BlockPos.Mutable mut = new BlockPos.Mutable();
 			for (int x = 0; x < 16; x++) {
-				if (DEBUG) System.out.println("x: "+x);
 				for (int z = 0; z < 16; z++) {
-					if (DEBUG) System.out.println("z: "+z);
 					Biome b = region.getBiome(mut.set(chunk.getPos().getStartX()+x, chunk.sampleHeightmap(Heightmap.Type.WORLD_SURFACE_WG, x, z)+1, chunk.getPos().getStartZ()+z));
 					Identifier id = region.toServerWorld().getRegistryManager().get(Registry.BIOME_KEY).getId(b);
 					if (id != null && id.getNamespace().equals("antiquated")) {
 						boolean winter = b.getCategory() == Category.ICY;
 						if (DEBUG) System.out.println("found alpha biome, winter: "+winter);
-						ProtoChunk alphaChunk = winter ? alphaChunkWinter : alphaChunkNotWinter;
-						if (alphaChunk == null) {
-							if (DEBUG) System.out.println("need to generate");
-							AlphaWorld w = new AlphaWorld(region, seed);
-							w.winterMode = winter;
-							if (DEBUG) System.out.println("starting alpha generator");
-							alphaChunk = new Alpha112ChunkGenerator(w, seed).generate(chunk.getPos().x, chunk.getPos().z);
-							if (DEBUG) System.out.println("alpha generator completed");
-							if (winter) alphaChunkWinter = alphaChunk;
-							else alphaChunkNotWinter = alphaChunk;
+						AlphaWorld w = new AlphaWorld(region, seed);
+						w.isolated = Antiquated.isAntiqueWorld(region.toServerWorld().getServer().getOverworld());
+						w.winterMode = winter;
+						if (DEBUG) System.out.println("starting alpha generator");
+						ProtoChunk alphaChunk = new Alpha112ChunkGenerator(w, seed).generate(chunk.getPos().x, chunk.getPos().z);
+						if (DEBUG) System.out.println("alpha generator completed");
+						for (int i = 0; i < chunk.getSectionArray().length; i++) {
+							chunk.getSectionArray()[i] = alphaChunk.getSectionArray()[i];
 						}
-						for (int y = 0; y < 128; y++) {
-							if (DEBUG) System.out.println("y: "+y);
-							mut.set(chunk.getPos().getStartX()+x, y, chunk.getPos().getStartZ()+z);
-							region.setBlockState(mut, alphaChunk.getBlockState(mut), 0);
-						}
+						biomeToReplaceWith = b;
+						break;
 					}
 				}
+			}
+			if (biomeToReplaceWith != null) {
+				Arrays.fill(((AccessorBiomeArray)chunk.getBiomeArray()).antiquated$getData(), biomeToReplaceWith);
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();

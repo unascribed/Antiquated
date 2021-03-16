@@ -2,3 +2,8 @@ accessWidener v1 named
 
 mutable field net/minecraft/client/gui/screen/Screen title Lnet/minecraft/text/Text;
 mutable field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Set;
+
+mutable field net/minecraft/screen/ScreenHandler slots Ljava/util/List;
+
+accessible method net/minecraft/screen/ScreenHandlerType <init> (Lnet/minecraft/screen/ScreenHandlerType$Factory;)V
+extendable class net/minecraft/screen/ScreenHandlerType$Factory

@@ -15,6 +15,7 @@ import net.minecraft.structure.Structure;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.Heightmap.Type;
 import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.level.ServerWorldProperties;
@@ -30,6 +31,7 @@ public class MixinMinecraftServer {
 			Structure s = world.getStructureManager().getStructure(new Identifier("antiquated", "indev_house"));
 			StructurePlacementData spd = new StructurePlacementData();
 			s.place(world, world.getSpawnPos().add(-3, -1, -3), spd, world.random);
+			((AccessorIntRule)world.getGameRules().get(GameRules.SPAWN_RADIUS)).antiquated$setValue(0);
 			Antiquated.serverForHouseAdvancement = new WeakReference<>(world.getServer());
 			if (world.getBiome(world.getSpawnPos()).getCategory() == Category.ICY) {
 				world.setWeather(0, 1000000, true, false);

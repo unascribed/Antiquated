@@ -4,16 +4,23 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.lang3.mutable.MutableInt;
 
 import com.unascribed.antiquated.init.ABiomes;
 import com.unascribed.antiquated.init.ABlockEntityTypes;
 import com.unascribed.antiquated.init.ABlocks;
+import com.unascribed.antiquated.init.AEnchantments;
 import com.unascribed.antiquated.init.AEntityTypes;
 import com.unascribed.antiquated.init.AItems;
+import com.unascribed.antiquated.init.AScreenHandlerTypes;
 import com.unascribed.antiquated.init.ASounds;
 import com.unascribed.antiquated.mixin.AccessorBlockEntityType;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
 import net.fabricmc.api.ModInitializer;
@@ -22,8 +29,11 @@ import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.SkeletonEntity;
@@ -35,9 +45,13 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -46,6 +60,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.source.BiomeSource;
 
 public class Antiquated implements ModInitializer {
 
@@ -53,12 +68,16 @@ public class Antiquated implements ModInitializer {
 			.icon(() -> new ItemStack(ABlocks.GRASS))
 			.build();
 	
+	public static Tag<Block> WANTS_XP = TagRegistry.block(new Identifier("antiquated", "wants_xp"));
+	
 	public static WeakReference<MinecraftServer> serverForHouseAdvancement;
+
+	public static ThreadLocal<MutableInt> increaseStackSize = ThreadLocal.withInitial(() -> new MutableInt(0));
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onInitialize() {
-		register(ASounds.class, ABlocks.class, ABiomes.class, AEntityTypes.class, AItems.class, ABlockEntityTypes.class);
+		register(ASounds.class, ABlocks.class, ABiomes.class, AEntityTypes.class, AItems.class, ABlockEntityTypes.class, AScreenHandlerTypes.class, AEnchantments.class);
 		
 		OverworldBiomes.addContinentalBiome(RegistryKey.of(Registry.BIOME_KEY, new Identifier("antiquated", "valley")), OverworldClimate.TEMPERATE, 0.2);
 		OverworldBiomes.addContinentalBiome(RegistryKey.of(Registry.BIOME_KEY, new Identifier("antiquated", "tundra")), OverworldClimate.SNOWY, 0.1);
@@ -94,6 +113,14 @@ public class Antiquated implements ModInitializer {
 		((AccessorBlockEntityType)BlockEntityType.FURNACE).antiquated$setBlocks(newFurnaceBlocks);
 	}
 	
+	public static boolean isAntiqueWorld(World world, BiomeSource src) {
+		return Iterables.all(src.getBiomes(), (b) -> isAntiqueBiome(world, b));
+	}
+	
+	public static boolean isAntiqueWorld(ServerWorld world) {
+		return isAntiqueWorld(world, world.getChunkManager().getChunkGenerator().getBiomeSource());
+	}
+	
 	public static boolean isAntiqueBiome(World world, Biome biome) {
 		Identifier id = world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome);
 		return id != null && id.getNamespace().equals("antiquated");
@@ -105,12 +132,28 @@ public class Antiquated implements ModInitializer {
 	
 	public static boolean isInAntiqueBiome(Entity e) {
 		if (e == null) return false;
-		return isInAntiqueBiome(e.world, e.getBlockPos());
+		if (isInAntiqueBiome(e.world, e.getBlockPos())) return true;
+		for (ItemStack is : e.getArmorItems()) {
+			if (EnchantmentHelper.getLevel(AEnchantments.LEGACY_CURSE, is) > 0) {
+				return true;
+			}
+		}
+		return false;
 	}
+	
+	private static final ImmutableMap<Class<?>, Registry> NORMAL_REGISTRIES = ImmutableMap.<Class<?>, Registry>builder()
+			.put(Item.class, Registry.ITEM)
+			.put(SoundEvent.class, Registry.SOUND_EVENT)
+			.put(Biome.class, BuiltinRegistries.BIOME)
+			.put(EntityType.class, Registry.ENTITY_TYPE)
+			.put(BlockEntityType.class, Registry.BLOCK_ENTITY_TYPE)
+			.put(ScreenHandlerType.class, Registry.SCREEN_HANDLER)
+			.put(Enchantment.class, Registry.ENCHANTMENT)
+		.build();
 
 	private void register(Class<?>... clazzes) {
 		for (Class<?> clazz : clazzes) {
-			for (Field f : clazz.getFields()) {
+			outer: for (Field f : clazz.getFields()) {
 				if (!Modifier.isStatic(f.getModifiers()) || !Modifier.isFinal(f.getModifiers())) continue;
 				String name = f.getName().toLowerCase(Locale.ROOT);
 				try {
@@ -121,16 +164,16 @@ public class Antiquated implements ModInitializer {
 							Registry.register(Registry.ITEM, "antiquated:"+name, new BlockItem(b, new Item.Settings()
 									.group(GROUP)));
 						}
-					} else if (Item.class.isAssignableFrom(f.getType())) {
-						Registry.register(Registry.ITEM, "antiquated:"+name, (Item)f.get(null));
-					} else if (f.getType() == SoundEvent.class) {
-						Registry.register(Registry.SOUND_EVENT, "antiquated:"+name, (SoundEvent)f.get(null));
-					} else if (f.getType() == Biome.class) {
-						Registry.register(BuiltinRegistries.BIOME, "antiquated:"+name, (Biome)f.get(null));
-					} else if (f.getType() == EntityType.class) {
-						Registry.register(Registry.ENTITY_TYPE, "antiquated:"+name, (EntityType<?>)f.get(null));
-					} else if (f.getType() == BlockEntityType.class) {
-						Registry.register(Registry.BLOCK_ENTITY_TYPE, "antiquated:"+name, (BlockEntityType<?>)f.get(null));
+					} else if (BlockSoundGroup.class.equals(f.getType())) {
+						// doesn't need registration, is held in ASounds for convenience
+					} else {
+						for (Map.Entry<Class<?>, Registry> en : NORMAL_REGISTRIES.entrySet()) {
+							if (en.getKey().isAssignableFrom(f.getType())) {
+								Registry.register(en.getValue(), "antiquated:"+name, f.get(null));
+								continue outer;
+							}
+						}
+						throw new RuntimeException("Don't know how to register "+clazz.getName()+"."+f.getName());
 					}
 				} catch (Exception e) {
 					throw new RuntimeException(e);
