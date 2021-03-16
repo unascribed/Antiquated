@@ -18,7 +18,6 @@ import com.unascribed.antiquated.init.AItems;
 import com.unascribed.antiquated.init.AScreenHandlerTypes;
 import com.unascribed.antiquated.init.ASounds;
 import com.unascribed.antiquated.mixin.AccessorBlockEntityType;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -93,6 +92,29 @@ public class Antiquated implements ModInitializer {
 						pe.dropItem(pe.getOffHandStack(), true);
 						pe.setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
 						pe.getAdvancementTracker().grantCriterion(world.getServer().getAdvancementLoader().get(new Identifier("antiquated", "lose_offhand")), "minecraft:impossible");
+						// debug code to regenerate your current chunk when you hit the swap hands key with an item held
+//						Chunk chunk = world.getChunk(pe.getBlockPos());
+//						{
+//							AlphaWorld w = new AlphaWorld(world, world.getSeed());
+//							w.isolated = Antiquated.isAntiqueWorld(world.getServer().getOverworld());
+//							ProtoChunk alphaChunk = new Alpha112ChunkGenerator(w, world.getSeed()).generate(chunk.getPos().x, chunk.getPos().z);
+//							for (int x = 0; x < 16; x++) {
+//								for (int z = 0; z < 16; z++) {
+//									for (int y = 0; y < 128; y++) {
+//										chunk.setBlockState(w.mut.set(x, y, z), alphaChunk.getBlockState(w.mut), false);
+//									}
+//								}
+//							}
+//							for (Heightmap.Type hm : Heightmap.Type.values()) {
+//								chunk.getHeightmap(hm); // ensure it's populated
+//							}
+//							Heightmap.populateHeightmaps(chunk, EnumSet.allOf(Heightmap.Type.class));
+//						}
+//						{
+//							AlphaWorld w = new AlphaWorld(world, world.getSeed());
+//							w.isolated = Antiquated.isAntiqueWorld(world.getServer().getOverworld());
+//							new Alpha112ChunkGenerator(w, world.getSeed()).populate(chunk.getPos().x, chunk.getPos().z);
+//						}
 					}
 					if (pe.isSprinting()) {
 						pe.setSprinting(false);

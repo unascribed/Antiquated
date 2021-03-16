@@ -73,7 +73,7 @@ public class AlphaWorld implements AntiqueBlockAccess {
 	}
 
 	public int getHeightValue(int x, int z) {
-		return delegate.getTopY(Type.WORLD_SURFACE_WG, x, z);
+		return delegate.getTopY(Type.WORLD_SURFACE, x, z);
 	}
 
 	public boolean isBlockOpaqueCube(int x, int y, int z) {

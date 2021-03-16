@@ -158,7 +158,7 @@ public class WorldGenDungeons extends WorldGenerator {
 			return new ItemStack(Items.REDSTONE, random.nextInt(4) + 1);
 		}
 		if (nextInt == 9 && random.nextInt(10) == 0) {
-			return new ItemStack(random.nextBoolean() ? Items.MUSIC_DISC_13 : Items.MUSIC_DISC_CAT);
+			return new ItemStack(random.nextInt(2) == 0 ? Items.MUSIC_DISC_13 : Items.MUSIC_DISC_CAT);
 		}
 		return null;
 	}
