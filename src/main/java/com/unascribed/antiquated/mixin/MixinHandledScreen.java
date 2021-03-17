@@ -28,7 +28,7 @@ public abstract class MixinHandledScreen extends Screen {
 	@Shadow
 	protected boolean cursorDragging;
 	
-	@ModifyVariable(at=@At(value="INVOKE_ASSIGN", target="net/minecraft/screen/slot/Slot.getBackgroundSprite"), method="drawSlot")
+	@ModifyVariable(at=@At(value="INVOKE_ASSIGN", target="net/minecraft/screen/slot/Slot.getBackgroundSprite()Lcom/mojang/datafixers/util/Pair;"), method="drawSlot")
 	protected Pair<Identifier, Identifier> getBackgroundForSlot(Pair<Identifier, Identifier> orig, MatrixStack matrices, Slot slot) {
 		Object self = this;
 		if (self instanceof InventoryScreen && AntiquatedClient.isInAntiqueBiome()) {

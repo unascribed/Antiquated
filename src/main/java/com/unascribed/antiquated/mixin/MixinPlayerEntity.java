@@ -32,7 +32,7 @@ public class MixinPlayerEntity {
 		}
 	}
 	
-	@Redirect(at=@At(value="INVOKE", target="net/minecraft/world/World.playSound"), method="attack")
+	@Redirect(at=@At(value="INVOKE", target="net/minecraft/world/World.playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"), method="attack")
 	public void playAttackSound(World subject, @Nullable PlayerEntity player, double x, double y, double z, SoundEvent sound, SoundCategory category, float volume, float pitch, Entity target) {
 		if (target instanceof AntiqueCreature || target instanceof AntiqueMonster) {
 			return;
@@ -40,7 +40,7 @@ public class MixinPlayerEntity {
 		subject.playSound(player, x, y, z, sound, category, volume, pitch);
 	}
 	
-	@Redirect(at=@At(value="INVOKE", target="net/minecraft/server/world/ServerWorld.spawnParticles"), method="attack")
+	@Redirect(at=@At(value="INVOKE", target="net/minecraft/server/world/ServerWorld.spawnParticles(Lnet/minecraft/particle/ParticleEffect;DDDIDDDD)I"), method="attack")
 	public <T extends ParticleEffect> int spawnAttackParticles(ServerWorld subject, T particle, double x, double y, double z, int count, double deltaX, double deltaY, double deltaZ, double speed, Entity target) {
 		if (target instanceof AntiqueCreature || target instanceof AntiqueMonster) {
 			return 0;

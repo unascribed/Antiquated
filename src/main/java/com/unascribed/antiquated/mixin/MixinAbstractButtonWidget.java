@@ -20,7 +20,7 @@ public class MixinAbstractButtonWidget {
 	@Unique
 	private static final Identifier OLD_BUTTONS_TEX = new Identifier("antiquated", "textures/gui/button.png");
 
-	@Inject(at=@At(value="INVOKE", target="net/minecraft/client/texture/TextureManager.bindTexture", shift=Shift.AFTER),
+	@Inject(at=@At(value="INVOKE", target="net/minecraft/client/texture/TextureManager.bindTexture(Lnet/minecraft/util/Identifier;)V", shift=Shift.AFTER),
 			method="renderButton")
 	public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		if (AntiquatedClient.isInAntiqueBiome()) {
@@ -28,7 +28,7 @@ public class MixinAbstractButtonWidget {
 		}
 	}
 	
-	@ModifyVariable(at=@At(value="INVOKE", target="net/minecraft/client/gui/widget/AbstractButtonWidget.getMessage"),
+	@ModifyVariable(at=@At(value="INVOKE", target="net/minecraft/client/gui/widget/AbstractButtonWidget.getMessage()Lnet/minecraft/text/Text;"),
 			method="renderButton", ordinal=2)
 	private int adjustTextColor(int color) {
 		Object self = this;

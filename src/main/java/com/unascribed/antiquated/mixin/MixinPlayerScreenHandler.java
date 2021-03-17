@@ -21,7 +21,7 @@ public class MixinPlayerScreenHandler {
 	@Shadow @Final
 	private CraftingInventory craftingInput;
 	
-	@Redirect(at=@At(value="FIELD", target="net/minecraft/world/World.isClient"), method="close")
+	@Redirect(at=@At(value="FIELD", target="net/minecraft/world/World.isClient:Z"), method="close")
 	public boolean preventCraftingDrop(World subject, PlayerEntity player) {
 		if (Antiquated.isInAntiqueBiome(player)) {
 			if (!craftingInput.isEmpty() && player instanceof ServerPlayerEntity) {
