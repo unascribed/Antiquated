@@ -17,7 +17,7 @@ public class MixinClientPlayerInteractionManager {
 
 	@Inject(at=@At("HEAD"), method="clickSlot", cancellable=true)
 	public void clickSlot(int syncId, int slotId, int clickData, SlotActionType actionType, PlayerEntity player, CallbackInfoReturnable<ItemStack> ci) {
-		if (Antiquated.isInAntiqueBiome(player)) {
+		if (Antiquated.isInCursedAntiqueBiome(player)) {
 			switch (actionType) {
 				case PICKUP_ALL:
 				case QUICK_CRAFT:

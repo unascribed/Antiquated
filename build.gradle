@@ -9,6 +9,10 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
+repositories {
+	maven { url "https://ladysnake.jfrog.io/artifactory/mods" }
+}
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -18,8 +22,10 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	// You may need to force-disable transitiveness on them.
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.7.13"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.7.13"
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.7.13"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.7.13"
 }
 
 minecraft {

@@ -1,0 +1,26 @@
+{
+	"parent": "antiquated:anch_block",
+	"display": {
+		"icon": {
+			"item": "antiquated:anch_obsidian"
+		},
+		"title": {
+			"translate": "advancements.antiquated.ignite_anch_obsidian.title"
+		},
+		"description": {
+			"translate": "advancements.antiquated.ignite_anch_obsidian.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": false,
+		"hidden": false
+	},
+	"rewards": {
+		"experience": 0
+	},
+	"criteria": {
+		"minecraft:impossible": {
+			"trigger": "minecraft:impossible"
+		}
+	}
+}

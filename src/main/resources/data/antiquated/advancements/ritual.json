@@ -1,0 +1,26 @@
+{
+	"parent": "antiquated:ignite_anch_obsidian",
+	"display": {
+		"icon": {
+			"item": "minecraft:crying_obsidian"
+		},
+		"title": {
+			"translate": "advancements.antiquated.ritual.title"
+		},
+		"description": {
+			"translate": "advancements.antiquated.ritual.description"
+		},
+		"frame": "goal",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"rewards": {
+		"experience": 75
+	},
+	"criteria": {
+		"minecraft:impossible": {
+			"trigger": "minecraft:impossible"
+		}
+	}
+}

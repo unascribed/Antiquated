@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "": [
+	    {
+	      "model": "antiquated:block/anch_cobblestone_1"
+	    },
+	    {
+	      "model": "antiquated:block/anch_cobblestone_2"
+	    },
+	    {
+	      "model": "antiquated:block/anch_cobblestone_3"
+	    },
+	    {
+	      "model": "antiquated:block/anch_cobblestone_4"
+	    },
+	    {
+	      "model": "antiquated:block/anch_cobblestone_5"
+	    },
+	    {
+	      "model": "antiquated:block/anch_cobblestone_6"
+	    }
+    ]
+  }
+}

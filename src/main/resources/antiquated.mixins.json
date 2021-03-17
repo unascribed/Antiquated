@@ -20,7 +20,11 @@
   	"AccessorBiomeArray",
   	"AccessorIntRule",
   	"MixinItemEntity",
-  	"MixinServerPlayerEntity"
+  	"MixinServerPlayerEntity",
+  	"MixinSmithingRecipe",
+  	"MixinEnchantment",
+  	"MixinRepairItemRecipe",
+  	"MixinFluidBlock"
   ],
   "client": [
   	"MixinScreen",
@@ -36,7 +40,9 @@
   	"MixinBuiltChunk",
   	"MixinClientWorld",
   	"AccessorLightmapTextureManager",
-  	"MixinWorldRenderer"
+  	"MixinWorldRenderer",
+  	"MixinBackgroundRenderer",
+  	"MixinHeldItemRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -15,7 +15,7 @@ public class MixinLivingEntity {
 
 	@Inject(at=@At("HEAD"), method="setSprinting(Z)V", cancellable=true)
 	public void setSprinting(boolean sprinting, CallbackInfo ci) {
-		if (Antiquated.isInAntiqueBiome((Entity)(Object)this) && sprinting) {
+		if (Antiquated.isInCursedAntiqueBiome((Entity)(Object)this) && sprinting) {
 			ci.cancel();
 		}
 	}

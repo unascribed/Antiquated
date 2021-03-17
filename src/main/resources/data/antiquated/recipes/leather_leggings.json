@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "# #",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "antiquated:leather"
+    }
+  },
+  "result": {
+    "item": "antiquated:leather_leggings"
+  }
+}

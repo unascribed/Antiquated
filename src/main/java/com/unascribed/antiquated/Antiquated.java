@@ -14,6 +14,7 @@ import com.unascribed.antiquated.init.ABlockEntityTypes;
 import com.unascribed.antiquated.init.ABlocks;
 import com.unascribed.antiquated.init.AEnchantments;
 import com.unascribed.antiquated.init.AEntityTypes;
+import com.unascribed.antiquated.init.AFluids;
 import com.unascribed.antiquated.init.AItems;
 import com.unascribed.antiquated.init.AScreenHandlerTypes;
 import com.unascribed.antiquated.init.ASounds;
@@ -40,10 +41,12 @@ import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -54,12 +57,15 @@ import net.minecraft.tag.Tag;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkStatus;
 
 public class Antiquated implements ModInitializer {
 
@@ -67,7 +73,8 @@ public class Antiquated implements ModInitializer {
 			.icon(() -> new ItemStack(ABlocks.GRASS))
 			.build();
 	
-	public static Tag<Block> WANTS_XP = TagRegistry.block(new Identifier("antiquated", "wants_xp"));
+	public static final Tag<Block> WANTS_XP = TagRegistry.block(new Identifier("antiquated", "wants_xp"));
+	public static final Tag<Fluid> ANCIENT_FLUIDS = TagRegistry.fluid(new Identifier("antiquated", "ancient_fluids"));
 	
 	public static WeakReference<MinecraftServer> serverForHouseAdvancement;
 
@@ -76,7 +83,7 @@ public class Antiquated implements ModInitializer {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onInitialize() {
-		register(ASounds.class, ABlocks.class, ABiomes.class, AEntityTypes.class, AItems.class, ABlockEntityTypes.class, AScreenHandlerTypes.class, AEnchantments.class);
+		register(ASounds.class, AFluids.class, ABlocks.class, ABiomes.class, AEntityTypes.class, AItems.class, ABlockEntityTypes.class, AScreenHandlerTypes.class, AEnchantments.class);
 		
 		OverworldBiomes.addContinentalBiome(RegistryKey.of(Registry.BIOME_KEY, new Identifier("antiquated", "valley")), OverworldClimate.TEMPERATE, 0.2);
 		OverworldBiomes.addContinentalBiome(RegistryKey.of(Registry.BIOME_KEY, new Identifier("antiquated", "tundra")), OverworldClimate.SNOWY, 0.1);
@@ -88,9 +95,17 @@ public class Antiquated implements ModInitializer {
 						serverForHouseAdvancement = null;
 						pe.getAdvancementTracker().grantCriterion(world.getServer().getAdvancementLoader().get(new Identifier("antiquated", "house")), "minecraft:impossible");
 					}
+					pe.clearStatusEffects();
+				}
+				if (isInCursedAntiqueBiome(pe)) {
 					if (!pe.getOffHandStack().isEmpty()) {
-						pe.dropItem(pe.getOffHandStack(), true);
+						ItemStack offhand = pe.getOffHandStack();
 						pe.setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
+						if (pe.getMainHandStack().isEmpty()) {
+							pe.setStackInHand(Hand.MAIN_HAND, offhand);
+						} else {
+							pe.inventory.offerOrDrop(world, offhand);
+						}
 						pe.getAdvancementTracker().grantCriterion(world.getServer().getAdvancementLoader().get(new Identifier("antiquated", "lose_offhand")), "minecraft:impossible");
 						// debug code to regenerate your current chunk when you hit the swap hands key with an item held
 //						Chunk chunk = world.getChunk(pe.getBlockPos());
@@ -119,7 +134,6 @@ public class Antiquated implements ModInitializer {
 					if (pe.isSprinting()) {
 						pe.setSprinting(false);
 					}
-					pe.clearStatusEffects();
 				}
 			}
 		});
@@ -163,6 +177,26 @@ public class Antiquated implements ModInitializer {
 		return false;
 	}
 	
+	public static boolean isInCursedAntiqueBiome(World world, BlockPos pos) {
+		return isAntiqueBiome(world, world.getBiome(pos)) && isCursed(world, pos);
+	}
+	
+	public static boolean isInCursedAntiqueBiome(Entity e) {
+		if (e == null) return false;
+		for (ItemStack is : e.getArmorItems()) {
+			if (EnchantmentHelper.getLevel(AEnchantments.LEGACY_CURSE, is) > 0) {
+				return true;
+			}
+		}
+		return isInAntiqueBiome(e) && isCursed(e.world, e.getBlockPos());
+	}
+	
+	public static boolean isCursed(World world, BlockPos blockPos) {
+		ChunkPos cp = new ChunkPos(blockPos);
+		Chunk c = world.getChunk(cp.x, cp.z, ChunkStatus.FULL, false);
+		return AntiquatedComponents.UNCURSED.get(c).getStrength() <= 0;
+	}
+
 	private static final ImmutableMap<Class<?>, Registry> NORMAL_REGISTRIES = ImmutableMap.<Class<?>, Registry>builder()
 			.put(Item.class, Registry.ITEM)
 			.put(SoundEvent.class, Registry.SOUND_EVENT)
@@ -171,6 +205,8 @@ public class Antiquated implements ModInitializer {
 			.put(BlockEntityType.class, Registry.BLOCK_ENTITY_TYPE)
 			.put(ScreenHandlerType.class, Registry.SCREEN_HANDLER)
 			.put(Enchantment.class, Registry.ENCHANTMENT)
+			.put(RecipeType.class, Registry.RECIPE_TYPE)
+			.put(Fluid.class, Registry.FLUID)
 		.build();
 
 	private void register(Class<?>... clazzes) {

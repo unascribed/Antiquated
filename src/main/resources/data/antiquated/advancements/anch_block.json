@@ -1,0 +1,49 @@
+{
+	"parent": "antiquated:find_valley",
+	"display": {
+		"icon": {
+			"item": "antiquated:anch_cobblestone"
+		},
+		"title": {
+			"translate": "advancements.antiquated.anch_block.title"
+		},
+		"description": {
+			"translate": "advancements.antiquated.anch_block.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"rewards": {
+		"experience": 0
+	},
+	"criteria": {
+		"antiquated:anch_cobblestone": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "antiquated:anch_cobblestone"
+					}
+				]
+			}
+		},
+		"antiquated:anch_obsidian": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "antiquated:anch_obsidian"
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"antiquated:anch_cobblestone",
+			"antiquated:anch_obsidian"
+		]
+	]
+}

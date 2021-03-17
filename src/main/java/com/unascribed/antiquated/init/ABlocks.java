@@ -1,16 +1,20 @@
 package com.unascribed.antiquated.init;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.unascribed.antiquated.AntiquatedComponents;
 import com.unascribed.antiquated.AntiqueChestBlockEntity;
 import com.unascribed.antiquated.AntiqueFlowerBlock;
 import com.unascribed.antiquated.AntiqueLeavesBlock;
 import com.unascribed.antiquated.AntiqueSaplingBlock;
 import com.unascribed.antiquated.HighStackScreenHandlerWrapper;
+
+import com.google.common.collect.Maps;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,9 +23,11 @@ import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.CactusBlock;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.block.DoubleBlockProperties;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.block.FurnaceBlock;
 import net.minecraft.block.Material;
 import net.minecraft.block.MaterialColor;
@@ -29,6 +35,8 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SnowyBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.DoubleInventory;
@@ -38,17 +46,24 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkStatus;
 
 public class ABlocks {
 
@@ -294,5 +309,148 @@ public class ABlocks {
 			.noCollision()
 			.ticksRandomly()
 			.breakInstantly());
+	
+	public static final FluidBlock WATER = new FluidBlock(AFluids.WATER, FabricBlockSettings.of(Material.WATER)
+			.noCollision()
+			.strength(100.0F)
+			.dropsNothing()) {};
+			
+	public static final FluidBlock LAVA = new FluidBlock(AFluids.LAVA, FabricBlockSettings.of(Material.LAVA)
+			.noCollision()
+			.strength(100.0F)
+			.luminance(15)
+			.dropsNothing()) {};
+			
+	public static final Block OBSIDIAN = new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.PURPLE)
+			.sounds(ASounds.STONE_SOUNDS)
+			.breakByTool(FabricToolTags.PICKAXES, 3)
+			.strength(50, 1200)
+			.requiresTool());
+	
+	public static final Block ANCH_OBSIDIAN = new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.PURPLE)
+			.sounds(ASounds.STONE_SOUNDS)
+			.breakByTool(FabricToolTags.PICKAXES, 3)
+			.strength(50, 1200)
+			.requiresTool()) {
+		@Override
+		public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
+			if (!(world instanceof ServerWorld)) return;
+			if (fromPos.equals(pos.up()) && world.getBlockState(fromPos).getBlock() == Blocks.FIRE) {
+				ServerWorld sw = (ServerWorld)world;
+				for (ServerPlayerEntity pe : sw.getPlayers()) {
+					if (pe.squaredDistanceTo(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5) < 8*8) {
+						pe.getAdvancementTracker().grantCriterion(world.getServer().getAdvancementLoader().get(new Identifier("antiquated", "ignite_anch_obsidian")), "minecraft:impossible");
+					}
+				}
+				String[] patternBottom = {
+					"       ",
+					"       ",
+					"  OzO  ",
+					"  zOz  ",
+					"  OzO  ",
+					"       ",
+					"       "
+				};
+				String[] patternTop = {
+					"   #   ",
+					"  #P#  ",
+					" #A#A# ",
+					"#m# #M#",
+					" #A#A# ",
+					"  #p#  ",
+					"   #   "
+				};
+				String[][] patterns = {
+						patternBottom, patternTop
+				};
+				Map<Character, Block> blocks = Maps.newHashMap();
+				blocks.put(' ', null);
+				blocks.put('z', null);
+				blocks.put('O', ABlocks.ANCH_OBSIDIAN);
+				blocks.put('#', ABlocks.ANCH_COBBLESTONE);
+				blocks.put('P', Blocks.OAK_PLANKS);
+				blocks.put('A', Blocks.AIR);
+				blocks.put('m', ABlocks.COBBLESTONE_MOSSY);
+				blocks.put('M', Blocks.MOSSY_COBBLESTONE);
+				blocks.put('p', ABlocks.PLANKS_OLD);
+				int wrong = 0;
+				BlockPos.Mutable mut = new BlockPos.Mutable();
+				out: for (int y = 0; y < patterns.length; y++) {
+					for (int x = 0; x < patternBottom[0].length(); x++) {
+						for (int z = 0; z < patternBottom.length; z++) {
+							char c = patterns[y][x].charAt(z);
+							if (!blocks.containsKey(c)) {
+								System.err.println("Unknown rune component "+c);
+							}
+							Block want = blocks.get(c);
+							if (want == null) {
+								// null = don't care
+								continue;
+							}
+							mut.set(pos).move(x-3, y, z-3);
+							BlockState have = world.getBlockState(mut);
+							boolean matches;
+							if (want == Blocks.AIR) {
+								matches = have.isAir();
+							} else {
+								matches = have.isOf(want);
+							}
+							if (!matches) {
+								if (want == Blocks.AIR) {
+									world.breakBlock(mut, false);
+								} else {
+									world.syncWorldEvent(null, 2001, mut, Block.getRawIdFromState(want.getDefaultState()));
+									world.setBlockState(fromPos, block.getDefaultState());
+									wrong++;
+									if (wrong > 3) break out;
+								}
+							}
+						}
+					}
+				}
+				if (wrong > 0) {
+					world.syncWorldEvent(null, 1009, fromPos, 0);
+					return;
+				}
+				for (int y = 0; y < patterns.length; y++) {
+					for (int x = 0; x < patternBottom[0].length(); x++) {
+						for (int z = 0; z < patternBottom.length; z++) {
+							char c = patterns[y][x].charAt(z);
+							if (blocks.get(c) != null || c == 'z') {
+								mut.set(pos).move(x-3, y, z-3);
+								if (c == 'O' || c == 'z') {
+									world.setBlockState(mut, Blocks.CRYING_OBSIDIAN.getDefaultState());
+								} else {
+									world.breakBlock(mut, false);
+								}
+							}
+						}
+					}
+				}
+				LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
+				lightning.setCosmetic(true);
+				lightning.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(fromPos));
+				world.spawnEntity(lightning);
+				ChunkPos cp = new ChunkPos(pos);
+				for (int x = -16; x <= 16; x++) {
+					for (int z = -16; z <= 16; z++) {
+						Chunk c = world.getChunk(cp.x+x, cp.z+z, ChunkStatus.BIOMES, true);
+						AntiquatedComponents.UNCURSED.get(c).setStrength(4);
+					}
+				}
+				for (ServerPlayerEntity pe : sw.getPlayers()) {
+					if (pe.squaredDistanceTo(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5) < 8*8) {
+						pe.getAdvancementTracker().grantCriterion(world.getServer().getAdvancementLoader().get(new Identifier("antiquated", "ritual")), "minecraft:impossible");
+					}
+				}
+			}
+		}
+	};
+	
+	public static final Block ANCH_COBBLESTONE = new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+			.sounds(ASounds.STONE_SOUNDS)
+			.breakByTool(FabricToolTags.PICKAXES)
+			.strength(2.0f, 10f)
+			.requiresTool());
 	
 }

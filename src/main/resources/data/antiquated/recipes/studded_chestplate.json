@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "antiquated:leather_chestplate"
+  },
+  "addition": {
+    "item": "minecraft:chainmail_chestplate"
+  },
+  "result": {
+    "item": "antiquated:studded_chestplate"
+  }
+}

@@ -7,11 +7,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class AncientFoodItem extends Item {
+public class AntiqueFoodItem extends Item {
 
 	private final int health;
 	
-	public AncientFoodItem(int health, Settings settings) {
+	public AntiqueFoodItem(int health, Settings settings) {
 		super(settings);
 		this.health = health;
 	}

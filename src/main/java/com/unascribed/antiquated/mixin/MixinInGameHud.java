@@ -85,7 +85,7 @@ public class MixinInGameHud {
 	
 	@Inject(at=@At("HEAD"), method="renderHeldItemTooltip", cancellable=true)
 	public void renderHeldItemTooltip(MatrixStack matrices, CallbackInfo ci) {
-		if (AntiquatedClient.isInAntiqueBiome()) {
+		if (AntiquatedClient.isInCursedAntiqueBiome()) {
 			ci.cancel();
 		}
 	}

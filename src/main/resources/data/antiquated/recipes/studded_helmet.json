@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "antiquated:leather_helmet"
+  },
+  "addition": {
+    "item": "minecraft:chainmail_helmet"
+  },
+  "result": {
+    "item": "antiquated:studded_helmet"
+  }
+}

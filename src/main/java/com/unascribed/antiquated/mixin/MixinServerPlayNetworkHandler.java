@@ -20,7 +20,7 @@ public class MixinServerPlayNetworkHandler {
 	
 	@Inject(at=@At("HEAD"), method="onClickSlot", cancellable=true)
 	public void onClickSlot(ClickSlotC2SPacket packet, CallbackInfo ci) {
-		if (Antiquated.isInAntiqueBiome(player)) {
+		if (Antiquated.isInCursedAntiqueBiome(player)) {
 			switch (packet.getActionType()) {
 				case PICKUP_ALL:
 				case QUICK_CRAFT:

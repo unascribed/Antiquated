@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "antiquated:leather_boots"
+  },
+  "addition": {
+    "item": "minecraft:chainmail_boots"
+  },
+  "result": {
+    "item": "antiquated:studded_boots"
+  }
+}

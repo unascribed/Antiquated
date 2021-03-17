@@ -5,6 +5,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.unascribed.antiquated.AntiquatedClient;
+
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -21,7 +23,9 @@ public abstract class MixinInventoryScreen extends HandledScreen<PlayerScreenHan
 
 	@Inject(at=@At("TAIL"), method="drawForeground")
 	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY, CallbackInfo ci) {
-		fill(matrices, 76, 60, 76+20, 60+20, 0xFFC6C6C6);
+		if (AntiquatedClient.isInCursedAntiqueBiome()) {
+			fill(matrices, 76, 60, 76+20, 60+20, 0xFFC6C6C6);
+		}
 	}
 	
 }

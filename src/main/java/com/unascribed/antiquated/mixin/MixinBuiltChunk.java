@@ -43,9 +43,11 @@ public class MixinBuiltChunk {
 		double targetGamma = MinecraftClient.getInstance().options.gamma;
 		float targetSkyLight = MinecraftClient.getInstance().world.method_23783(0);
 		// this is called before rendering, so it's a good time for us to hack things
-		if (Antiquated.isAntiqueBiome(MinecraftClient.getInstance().world, MinecraftClient.getInstance().world.getBiome(origin.add(4, 4, 4)))) {
-			// max out gamma at +30%
-			targetGamma = Math.min(targetGamma, 0.3);
+		if (Antiquated.isInAntiqueBiome(MinecraftClient.getInstance().world, origin.add(4, 4, 4))) {
+			if (Antiquated.isInCursedAntiqueBiome(MinecraftClient.getInstance().world, origin.add(4, 4, 4))) {
+				// max out gamma at +30%
+				targetGamma = Math.min(targetGamma, 0.3);
+			}
 			targetSkyLight = ((int)(targetSkyLight*15)/15f);
 			if (skyLightRandom == -1) {
 				skyLightRandom = (Hashing.murmur3_32().newHasher().putInt(origin.getX()).putInt(origin.getZ()).hash().asInt()&Integer.MAX_VALUE)%100;

@@ -8,19 +8,26 @@ import com.unascribed.antiquated.client.AntiqueSpiderRenderer;
 import com.unascribed.antiquated.client.AntiqueZombieRenderer;
 import com.unascribed.antiquated.init.ABlocks;
 import com.unascribed.antiquated.init.AEntityTypes;
+import com.unascribed.antiquated.init.AFluids;
+import com.unascribed.antiquated.init.AItems;
 import com.unascribed.antiquated.init.AScreenHandlerTypes;
-
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.texture.Sprite;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 
 public class AntiquatedClient implements ClientModInitializer {
@@ -32,6 +39,12 @@ public class AntiquatedClient implements ClientModInitializer {
 	public static double lastGamma = -1;
 	
 	private static boolean antiqueWorld = false;
+	
+	private static final Identifier WATER_FLOW = new Identifier("antiquated", "block/water_flow");
+	private static final Identifier WATER_STILL = new Identifier("antiquated", "block/water_still");
+	
+	private static final Identifier LAVA_FLOW = new Identifier("antiquated", "block/lava_flow");
+	private static final Identifier LAVA_STILL = new Identifier("antiquated", "block/lava_still");
 
 	@Override
 	public void onInitializeClient() {
@@ -43,8 +56,12 @@ public class AntiquatedClient implements ClientModInitializer {
 				ABlocks.SAPLING_OLD,
 				ABlocks.ROSE,
 				ABlocks.DANDELION);
+		BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(),
+				ABlocks.WATER);
+		BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(),
+				AFluids.WATER, AFluids.FLOWING_WATER);
 		HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
-			if (isInAntiqueBiome() && !MinecraftClient.getInstance().options.debugEnabled) {
+			if (isInCursedAntiqueBiome() && !MinecraftClient.getInstance().options.debugEnabled) {
 				MinecraftClient.getInstance().textRenderer.drawWithShadow(matrixStack, "Minecraft v"+SharedConstants.getGameVersion().getName(), 2, 2, -1);
 			}
 		});
@@ -55,12 +72,43 @@ public class AntiquatedClient implements ClientModInitializer {
 				antiqueWorld = false;
 			}
 		});
+		ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
+			registry.register(WATER_STILL);
+			registry.register(WATER_FLOW);
+			registry.register(LAVA_STILL);
+			registry.register(LAVA_FLOW);
+		});
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.PIG, (erd, ctx) -> new AntiquePigRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.COW, (erd, ctx) -> new AntiqueCowRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.SKELETON_ARROW, (erd, ctx) -> new AntiqueSkeletonArrowRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.SKELETON, (erd, ctx) -> new AntiqueSkeletonRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.ZOMBIE, (erd, ctx) -> new AntiqueZombieRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.SPIDER, (erd, ctx) -> new AntiqueSpiderRenderer(erd));
+		
+		ArmorRenderingRegistry.registerSimpleTexture(new Identifier("antiquated", "cloth"),
+				AItems.LEATHER_HELMET, AItems.LEATHER_CHESTPLATE, AItems.LEATHER_LEGGINGS, AItems.LEATHER_BOOTS);
+		ArmorRenderingRegistry.registerSimpleTexture(new Identifier("antiquated", "studded"),
+				AItems.STUDDED_HELMET, AItems.STUDDED_CHESTPLATE, AItems.STUDDED_LEGGINGS, AItems.STUDDED_BOOTS);
+		
+		FluidRenderHandler waterRenderHandler = (view, pos, state) -> {
+			MinecraftClient mc = MinecraftClient.getInstance();
+			return new Sprite[] {
+				mc.getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(WATER_STILL),
+				mc.getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(WATER_FLOW)
+			};
+		};
+		FluidRenderHandlerRegistry.INSTANCE.register(AFluids.WATER, waterRenderHandler);
+		FluidRenderHandlerRegistry.INSTANCE.register(AFluids.FLOWING_WATER, waterRenderHandler);
+		
+		FluidRenderHandler lavaRenderHandler = (view, pos, state) -> {
+			MinecraftClient mc = MinecraftClient.getInstance();
+			return new Sprite[] {
+				mc.getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(LAVA_STILL),
+				mc.getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(LAVA_FLOW)
+			};
+		};
+		FluidRenderHandlerRegistry.INSTANCE.register(AFluids.LAVA, lavaRenderHandler);
+		FluidRenderHandlerRegistry.INSTANCE.register(AFluids.FLOWING_LAVA, lavaRenderHandler);
 		
 		ScreenRegistry.register(AScreenHandlerTypes.ANTIQUE_CHEST, GenericContainerScreen::new);
 		ScreenRegistry.register(AScreenHandlerTypes.ANTIQUE_DOUBLE_CHEST, GenericContainerScreen::new);
@@ -72,6 +120,10 @@ public class AntiquatedClient implements ClientModInitializer {
 
 	public static boolean isInAntiqueBiome() {
 		return Antiquated.isInAntiqueBiome(MinecraftClient.getInstance().player);
+	}
+	
+	public static boolean isInCursedAntiqueBiome() {
+		return Antiquated.isInCursedAntiqueBiome(MinecraftClient.getInstance().player);
 	}
 
 	public static boolean isAntiqueWorld() {

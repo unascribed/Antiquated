@@ -18,6 +18,9 @@
 	"block.antiquated.sapling_old": "Prehistoric Sapling",
 	"block.antiquated.planks": "Ancient Planks",
 	"block.antiquated.planks_old": "Prehistoric Planks",
+	"block.antiquated.anch_cobblestone": "Anachronistic Cobblestone",
+	"block.antiquated.anch_obsidian": "Anachronistic Obsidian",
+	"block.antiquated.obsidian": "Ancient Obsidian",
 	
 	"item.antiquated.porkchop": "Antique Raw Porkchop",
 	"item.antiquated.cooked_porkchop": "Antique Cooked Porkchop",
@@ -25,6 +28,15 @@
 	"item.antiquated.golden_apple": "Antique Golden Apple",
 	"item.antiquated.record_calm4": "Music Disc",
 	"item.antiquated.record_calm4.desc": "Markus Alexei - Magnetic Circuit (aka calm4.ogg)",
+	"item.antiquated.leather": "Antique Leather",
+	"item.antiquated.leather_helmet": "Antique Leather Cap",
+	"item.antiquated.leather_chestplate": "Antique Leather Tunic",
+	"item.antiquated.leather_leggings": "Antique Leather Pants",
+	"item.antiquated.leather_boots": "Antique Leather Boots",
+	"item.antiquated.studded_helmet": "Anachronistic Helmet",
+	"item.antiquated.studded_chestplate": "Anachronistic Chestplate",
+	"item.antiquated.studded_leggings": "Anachronistic Leggings",
+	"item.antiquated.studded_boots": "Anachronistic Boots",
 	
 	"biome.antiquated.valley": "Antique Valley",
 	"biome.antiquated.tundra": "Antique Tundra",
@@ -60,5 +72,14 @@
 	"advancements.antiquated.lose_offhand.description": "Attempt to hold something in your forbidden off-hand in an Antique biome",
 	
 	"advancements.antiquated.grid_storage.title": "Secret Pockets",
-	"advancements.antiquated.grid_storage.description": "Store something in your crafting grid"
+	"advancements.antiquated.grid_storage.description": "Store something in your crafting grid",
+	
+	"advancements.antiquated.anch_block.title": "Anachronism",
+	"advancements.antiquated.anch_block.description": "Combine ancient water or lava with modern water or lava and mine the resulting block",
+	
+	"advancements.antiquated.ignite_anch_obsidian.title": "Additional Pylons",
+	"advancements.antiquated.ignite_anch_obsidian.description": "Light anachronistic obsidian on fire",
+	
+	"advancements.antiquated.ritual.title": "Uncursed",
+	"advancements.antiquated.ritual.description": "Build and successfully cast a Rune of Anachronism to bring back some modern conveniences"
 }

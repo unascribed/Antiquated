@@ -12,6 +12,7 @@ import com.unascribed.antiquated.AntiquatedClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 @Mixin(Screen.class)
@@ -19,7 +20,8 @@ public class MixinScreen {
 	
 	@Inject(at=@At("HEAD"), method="renderTooltip(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/item/ItemStack;II)V", cancellable=true)
 	protected void renderTooltip(MatrixStack matrices, ItemStack stack, int x, int y, CallbackInfo ci) {
-		if (AntiquatedClient.isInAntiqueBiome() || Registry.ITEM.getId(stack.getItem()).getNamespace().equals("antiquated")) {
+		Identifier id = Registry.ITEM.getId(stack.getItem());
+		if (AntiquatedClient.isInCursedAntiqueBiome() || (id.getNamespace().equals("antiquated") && !id.getPath().startsWith("studded_"))) {
 			ci.cancel();
 		}
 	}
