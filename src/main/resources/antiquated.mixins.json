@@ -24,11 +24,11 @@
   	"MixinSmithingRecipe",
   	"MixinEnchantment",
   	"MixinRepairItemRecipe",
-  	"MixinFluidBlock"
+  	"MixinFluidBlock",
+  	"MixinDoorBlock"
   ],
   "client": [
   	"MixinScreen",
-  	"MixinCreativeInventoryScreen",
   	"MixinInGameHud",
   	"MixinInventoryScreen",
   	"MixinHandledScreen",
@@ -42,7 +42,8 @@
   	"AccessorLightmapTextureManager",
   	"MixinWorldRenderer",
   	"MixinBackgroundRenderer",
-  	"MixinHeldItemRenderer"
+  	"MixinHeldItemRenderer",
+  	"MixinFluidRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

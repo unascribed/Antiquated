@@ -55,9 +55,15 @@ public class AntiquatedClient implements ClientModInitializer {
 				ABlocks.SAPLING,
 				ABlocks.SAPLING_OLD,
 				ABlocks.ROSE,
-				ABlocks.DANDELION);
+				ABlocks.DANDELION,
+				ABlocks.RED_MUSHROOM,
+				ABlocks.BROWN_MUSHROOM,
+				ABlocks.DOOR,
+				ABlocks.REEDS,
+				ABlocks.GLASS
+		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(),
-				ABlocks.WATER);
+				ABlocks.WATER, ABlocks.ICE);
 		BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(),
 				AFluids.WATER, AFluids.FLOWING_WATER);
 		HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {

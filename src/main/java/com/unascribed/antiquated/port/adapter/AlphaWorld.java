@@ -7,8 +7,9 @@ import com.unascribed.antiquated.init.ABlocks;
 
 import com.google.common.collect.Collections2;
 
-import net.minecraft.block.GrassBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
+import net.minecraft.block.SnowyBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -66,9 +67,13 @@ public class AlphaWorld implements AntiqueBlockAccess {
 	}
 
 	public void setBlockId(int x, int y, int z, int id) {
-		delegate.setBlockState(mut.set(x, y, z), BlockIDConverter.convert(id), 3);
+		BlockState bs = BlockIDConverter.convert(id);
+		delegate.setBlockState(mut.set(x, y, z), bs, 3);
+		if (id == 8 || id == 10) {
+			delegate.getFluidTickScheduler().schedule(mut, bs.getFluidState().getFluid(), 0);
+		}
 		if (id == AlphaBlock.snow.blockID && delegate.getBlockState(mut.set(x, y-1, z)).getBlock() == ABlocks.GRASS) {
-			delegate.setBlockState(mut, ABlocks.GRASS.getDefaultState().with(GrassBlock.SNOWY, true), 3);
+			delegate.setBlockState(mut, ABlocks.GRASS.getDefaultState().with(SnowyBlock.SNOWY, true), 3);
 		}
 	}
 

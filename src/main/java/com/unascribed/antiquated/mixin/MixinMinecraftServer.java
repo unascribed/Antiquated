@@ -30,7 +30,7 @@ public class MixinMinecraftServer {
 			world.setSpawnPos(pos, 180);
 			Structure s = world.getStructureManager().getStructure(new Identifier("antiquated", "indev_house"));
 			StructurePlacementData spd = new StructurePlacementData();
-			s.place(world, world.getSpawnPos().add(-3, -1, -3), spd, world.random);
+			s.place(world, world.getSpawnPos().add(-3, -1, -5), spd, world.random);
 			((AccessorIntRule)world.getGameRules().get(GameRules.SPAWN_RADIUS)).antiquated$setValue(0);
 			Antiquated.serverForHouseAdvancement = new WeakReference<>(world.getServer());
 			if (world.getBiome(world.getSpawnPos()).getCategory() == Category.ICY) {

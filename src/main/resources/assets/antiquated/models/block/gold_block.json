@@ -1,0 +1,13 @@
+{
+	"parent": "minecraft:block/cube",
+	"ambientocclusion": false,
+	"textures": {
+		"north": "antiquated:block/gold_block_side",
+		"east": "antiquated:block/gold_block_side",
+		"south": "antiquated:block/gold_block_side",
+		"west": "antiquated:block/gold_block_side",
+		"up": "antiquated:block/gold_block_top",
+		"down": "antiquated:block/gold_block_bottom",
+		"particle": "antiquated:block/gold_block_side"
+	}
+}
