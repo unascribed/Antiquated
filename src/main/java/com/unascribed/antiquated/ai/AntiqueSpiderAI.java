@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.math.MathHelper;
 
-public class AntiqueSpiderAI extends AntiqueMobAI {
+public class AntiqueSpiderAI extends AntiqueMonsterAI {
 
 	public AntiqueSpiderAI(MobEntity entity) {
 		super(entity);

@@ -1,14 +1,21 @@
 package com.unascribed.antiquated.init;
 
-import com.unascribed.antiquated.AntiqueFoodItem;
 import com.unascribed.antiquated.Antiquated;
-import com.unascribed.antiquated.AntiqueArmorItem;
+import com.unascribed.antiquated.item.AntiqueArmorItem;
+import com.unascribed.antiquated.item.AntiqueBowItem;
+import com.unascribed.antiquated.item.AntiqueFoodItem;
+import com.unascribed.antiquated.item.AntiqueSwordItem;
 
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.MusicDiscItem;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ShovelItem;
+import net.minecraft.item.ToolMaterial;
+import net.minecraft.recipe.Ingredient;
 
 public class AItems {
 
@@ -75,5 +82,58 @@ public class AItems {
 			.recipeRemainder(Items.BUCKET)
 			.maxCount(1)
 			.group(Antiquated.GROUP));
+
+	private static final ToolMaterial ANTIQUE_IRON = new ToolMaterial() {
+		
+		@Override
+		public Ingredient getRepairIngredient() {
+			return Ingredient.ofItems();
+		}
+		
+		@Override
+		public float getMiningSpeedMultiplier() {
+			return 6;
+		}
+		
+		@Override
+		public int getMiningLevel() {
+			return 2;
+		}
+		
+		@Override
+		public int getEnchantability() {
+			return 0;
+		}
+		
+		@Override
+		public int getDurability() {
+			return 128;
+		}
+		
+		@Override
+		public float getAttackDamage() {
+			return 0;
+		}
+	};
+	
+	public static final Item SWORD = new AntiqueSwordItem(7, new Item.Settings()
+			.maxDamage(128)
+			.group(Antiquated.GROUP));
+	
+	public static final Item PICKAXE = new PickaxeItem(ANTIQUE_IRON, 3, 900000000, new Item.Settings()
+			.maxDamage(128)
+			.group(Antiquated.GROUP)) {};
+			
+	public static final Item AXE = new AxeItem(ANTIQUE_IRON, 4, 900000000, new Item.Settings()
+			.maxDamage(128)
+			.group(Antiquated.GROUP)) {};
+			
+	public static final Item SHOVEL = new ShovelItem(ANTIQUE_IRON, 2, 900000000, new Item.Settings()
+			.maxDamage(128)
+			.group(Antiquated.GROUP)) {};
+			
+	public static final Item BOW = new AntiqueBowItem(new Item.Settings()
+			.maxDamage(256)
+			.group(Antiquated.GROUP)) {};
 	
 }

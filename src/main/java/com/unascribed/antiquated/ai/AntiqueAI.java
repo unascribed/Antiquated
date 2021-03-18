@@ -29,5 +29,9 @@ public abstract class AntiqueAI extends Goal {
 	public void stop() {
 		pathfinder = null;
 	}
+	
+	public boolean canSpawnHere() {
+		return entity.world.getCollisions(entity, entity.getBoundingBox(), e -> true).count() == 0 && !entity.world.containsFluid(entity.getBoundingBox());
+	}
 
 }

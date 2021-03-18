@@ -1,4 +1,4 @@
-package com.unascribed.antiquated;
+package com.unascribed.antiquated.item;
 
 import java.util.UUID;
 

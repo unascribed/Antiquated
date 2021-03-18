@@ -25,7 +25,9 @@
   	"MixinEnchantment",
   	"MixinRepairItemRecipe",
   	"MixinFluidBlock",
-  	"MixinDoorBlock"
+  	"MixinDoorBlock",
+  	"AccessorThreadedAnvilChunkStorage",
+  	"AccessorCreeperEntity"
   ],
   "client": [
   	"MixinScreen",
@@ -43,7 +45,8 @@
   	"MixinWorldRenderer",
   	"MixinBackgroundRenderer",
   	"MixinHeldItemRenderer",
-  	"MixinFluidRenderer"
+  	"MixinFluidRenderer",
+  	"MixinClientPlayNetworkHandler"
   ],
   "injectors": {
     "defaultRequire": 1

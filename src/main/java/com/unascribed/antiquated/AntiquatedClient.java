@@ -1,7 +1,10 @@
 package com.unascribed.antiquated;
 
+import com.unascribed.antiquated.client.AntiqueChickenRenderer;
 import com.unascribed.antiquated.client.AntiqueCowRenderer;
+import com.unascribed.antiquated.client.AntiqueCreeperRenderer;
 import com.unascribed.antiquated.client.AntiquePigRenderer;
+import com.unascribed.antiquated.client.AntiqueSheepRenderer;
 import com.unascribed.antiquated.client.AntiqueSkeletonArrowRenderer;
 import com.unascribed.antiquated.client.AntiqueSkeletonRenderer;
 import com.unascribed.antiquated.client.AntiqueSpiderRenderer;
@@ -26,6 +29,7 @@ import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.ArrowEntityRenderer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
@@ -86,10 +90,14 @@ public class AntiquatedClient implements ClientModInitializer {
 		});
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.PIG, (erd, ctx) -> new AntiquePigRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.COW, (erd, ctx) -> new AntiqueCowRenderer(erd));
+		EntityRendererRegistry.INSTANCE.register(AEntityTypes.ARROW, (erd, ctx) -> new ArrowEntityRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.SKELETON_ARROW, (erd, ctx) -> new AntiqueSkeletonArrowRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.SKELETON, (erd, ctx) -> new AntiqueSkeletonRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.ZOMBIE, (erd, ctx) -> new AntiqueZombieRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.SPIDER, (erd, ctx) -> new AntiqueSpiderRenderer(erd));
+		EntityRendererRegistry.INSTANCE.register(AEntityTypes.CREEPER, (erd, ctx) -> new AntiqueCreeperRenderer(erd));
+		EntityRendererRegistry.INSTANCE.register(AEntityTypes.SHEEP, (erd, ctx) -> new AntiqueSheepRenderer(erd));
+		EntityRendererRegistry.INSTANCE.register(AEntityTypes.CHICKEN, (erd, ctx) -> new AntiqueChickenRenderer(erd));
 		
 		ArmorRenderingRegistry.registerSimpleTexture(new Identifier("antiquated", "cloth"),
 				AItems.LEATHER_HELMET, AItems.LEATHER_CHESTPLATE, AItems.LEATHER_LEGGINGS, AItems.LEATHER_BOOTS);

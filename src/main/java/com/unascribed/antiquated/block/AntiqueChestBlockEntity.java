@@ -1,4 +1,4 @@
-package com.unascribed.antiquated;
+package com.unascribed.antiquated.block;
 
 import com.unascribed.antiquated.init.ABlockEntityTypes;
 

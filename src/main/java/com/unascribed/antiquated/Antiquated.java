@@ -8,7 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.mutable.MutableInt;
-
+import com.unascribed.antiquated.entity.AntiqueCreature;
+import com.unascribed.antiquated.entity.AntiqueMonster;
 import com.unascribed.antiquated.init.ABiomes;
 import com.unascribed.antiquated.init.ABlockEntityTypes;
 import com.unascribed.antiquated.init.ABlocks;
@@ -19,6 +20,10 @@ import com.unascribed.antiquated.init.AItems;
 import com.unascribed.antiquated.init.AScreenHandlerTypes;
 import com.unascribed.antiquated.init.ASounds;
 import com.unascribed.antiquated.mixin.AccessorBlockEntityType;
+import com.unascribed.antiquated.port.AlphaSpawnerAnimals;
+import com.unascribed.antiquated.port.AlphaSpawnerMonsters;
+import com.unascribed.antiquated.port.adapter.AlphaWorld;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -27,20 +32,27 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.CreeperEntity;
+import net.minecraft.entity.mob.PhantomEntity;
 import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -79,6 +91,11 @@ public class Antiquated implements ModInitializer {
 	public static WeakReference<MinecraftServer> serverForHouseAdvancement;
 
 	public static ThreadLocal<MutableInt> increaseStackSize = ThreadLocal.withInitial(() -> new MutableInt(0));
+	
+	private static final AlphaSpawnerMonsters ALPHA_MONSTERS = new AlphaSpawnerMonsters(60, AntiqueMonster.class,
+			AEntityTypes.ZOMBIE, AEntityTypes.SKELETON, AEntityTypes.CREEPER, AEntityTypes.SPIDER);
+	private static final AlphaSpawnerAnimals ALPHA_ANIMALS = new AlphaSpawnerAnimals(5, AntiqueCreature.class,
+			AEntityTypes.SHEEP, AEntityTypes.PIG, AEntityTypes.COW, AEntityTypes.CHICKEN);
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -136,6 +153,15 @@ public class Antiquated implements ModInitializer {
 					}
 				}
 			}
+			AlphaWorld aw = new AlphaWorld(world, world.getSeed());
+			ALPHA_MONSTERS.spawn(aw);
+			ALPHA_ANIMALS.spawn(aw);
+		});
+		
+		ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
+			if (entity instanceof PhantomEntity && isInAntiqueBiome(entity)) {
+				entity.remove();
+			}
 		});
 		
 		FabricDefaultAttributeRegistry.register(AEntityTypes.PIG, PigEntity.createPigAttributes());
@@ -143,6 +169,9 @@ public class Antiquated implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(AEntityTypes.SKELETON, SkeletonEntity.createAbstractSkeletonAttributes());
 		FabricDefaultAttributeRegistry.register(AEntityTypes.ZOMBIE, ZombieEntity.createZombieAttributes());
 		FabricDefaultAttributeRegistry.register(AEntityTypes.SPIDER, SpiderEntity.createSpiderAttributes());
+		FabricDefaultAttributeRegistry.register(AEntityTypes.CREEPER, CreeperEntity.createCreeperAttributes());
+		FabricDefaultAttributeRegistry.register(AEntityTypes.SHEEP, SheepEntity.createSheepAttributes());
+		FabricDefaultAttributeRegistry.register(AEntityTypes.CHICKEN, ChickenEntity.createChickenAttributes());
 		
 		Set<Block> newFurnaceBlocks = Sets.newHashSet(((AccessorBlockEntityType)BlockEntityType.FURNACE).antiquated$getBlocks());
 		newFurnaceBlocks.add(ABlocks.FURNACE);
@@ -237,6 +266,18 @@ public class Antiquated implements ModInitializer {
 					throw new RuntimeException(e);
 				}
 			}
+		}
+	}
+
+	public static void playDefaultStepSound(Entity entity, BlockPos pos, BlockState state) {
+		if (!state.getMaterial().isLiquid()) {
+			BlockState blockState = entity.world.getBlockState(pos.up());
+			BlockSoundGroup blockSoundGroup = blockState.isOf(Blocks.SNOW)
+					? blockState.getSoundGroup()
+					: state.getSoundGroup();
+			entity.playSound(blockSoundGroup.getStepSound(),
+					blockSoundGroup.getVolume() * 0.15F,
+					blockSoundGroup.getPitch());
 		}
 	}
 

@@ -1,7 +1,7 @@
 package com.unascribed.antiquated.port;
 import java.util.*;
 
-import com.unascribed.antiquated.AntiqueChestBlockEntity;
+import com.unascribed.antiquated.block.AntiqueChestBlockEntity;
 import com.unascribed.antiquated.init.AEnchantments;
 import com.unascribed.antiquated.init.AEntityTypes;
 import com.unascribed.antiquated.init.AItems;

@@ -8,7 +8,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class AntiqueCreatureAI extends AntiqueAI {
+public abstract class AntiqueCreatureAI extends AntiqueAI {
 
 	public AntiqueCreatureAI(MobEntity entity) {
 		this(entity, 0.7f);
@@ -212,5 +212,10 @@ public class AntiqueCreatureAI extends AntiqueAI {
 		}
 		return f + f3;
 	}
+	
+	@Override
+	public boolean canSpawnHere() {
+        return super.canSpawnHere() && getBlockPathWeight(MathHelper.floor(entity.getX()), MathHelper.floor(entity.getY()), MathHelper.floor(entity.getZ())) > 0;
+    }
 
 }

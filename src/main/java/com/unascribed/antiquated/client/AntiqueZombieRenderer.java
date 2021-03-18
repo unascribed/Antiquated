@@ -17,5 +17,5 @@ public class AntiqueZombieRenderer extends ZombieEntityRenderer {
 	public Identifier getTexture(ZombieEntity zombieEntity) {
 		return TEXTURE;
 	}
-
+	
 }

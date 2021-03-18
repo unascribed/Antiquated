@@ -10,21 +10,23 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.chunk.Chunk;
 
 public class AntiquatedComponents implements ChunkComponentInitializer {
 
 	public static class UncursedComponent implements Component, AutoSyncedComponent {
 
-		private final Object provider;
+		private final Chunk provider;
 		private int strength;
 		
-		public UncursedComponent(Object provider) {
+		public UncursedComponent(Chunk provider) {
 			this.provider = provider;
 		}
 		
 		public void setStrength(int strength) {
 			this.strength = strength;
 			AntiquatedComponents.UNCURSED.sync(provider);
+			provider.setShouldSave(true);
 		}
 		
 		public int getStrength() {

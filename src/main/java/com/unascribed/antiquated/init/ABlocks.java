@@ -9,14 +9,14 @@ import java.util.Random;
 import org.jetbrains.annotations.Nullable;
 
 import com.unascribed.antiquated.AntiquatedComponents;
-import com.unascribed.antiquated.AntiqueChestBlockEntity;
-import com.unascribed.antiquated.AntiqueFlowerBlock;
-import com.unascribed.antiquated.AntiqueLeavesBlock;
-import com.unascribed.antiquated.AntiqueMushroomBlock;
-import com.unascribed.antiquated.AntiqueSaplingBlock;
 import com.unascribed.antiquated.HighStackScreenHandlerWrapper;
-import com.unascribed.antiquated.IdentitySilkTouchBlock;
 import com.unascribed.antiquated.Technical;
+import com.unascribed.antiquated.block.AntiqueChestBlockEntity;
+import com.unascribed.antiquated.block.AntiqueFlowerBlock;
+import com.unascribed.antiquated.block.AntiqueLeavesBlock;
+import com.unascribed.antiquated.block.AntiqueMushroomBlock;
+import com.unascribed.antiquated.block.AntiqueSaplingBlock;
+import com.unascribed.antiquated.block.IdentitySilkTouchBlock;
 
 import com.google.common.collect.Maps;
 

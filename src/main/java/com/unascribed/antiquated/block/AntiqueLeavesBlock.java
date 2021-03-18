@@ -1,4 +1,4 @@
-package com.unascribed.antiquated;
+package com.unascribed.antiquated.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

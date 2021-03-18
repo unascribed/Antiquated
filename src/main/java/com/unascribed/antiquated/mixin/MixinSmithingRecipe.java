@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.unascribed.antiquated.AntiqueArmorItem;
+import com.unascribed.antiquated.item.AntiqueArmorItem;
 
 import com.google.common.collect.Maps;
 

@@ -61,6 +61,11 @@
 	"item.antiquated.studded_boots": "Anachronistic Boots",
 	"item.antiquated.water_bucket": "Antique Water Bucket",
 	"item.antiquated.lava_bucket": "Antique Lava Bucket",
+	"item.antiquated.sword": "Antique Sword",
+	"item.antiquated.pickaxe": "Antique Pickaxe",
+	"item.antiquated.shovel": "Antique Shovel",
+	"item.antiquated.axe": "Antique Axe",
+	"item.antiquated.bow": "Antique Bow",
 	
 	"biome.antiquated.valley": "Antique Valley",
 	"biome.antiquated.tundra": "Antique Tundra",

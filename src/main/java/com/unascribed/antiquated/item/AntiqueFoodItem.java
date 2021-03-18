@@ -1,4 +1,4 @@
-package com.unascribed.antiquated;
+package com.unascribed.antiquated.item;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

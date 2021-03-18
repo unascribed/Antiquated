@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+	"ccc",
+	"c c",
+	"ccc"
+	],
+	"key": {
+		"c": {"item": "antiquated:cobblestone"}
+	},
+	"result": {"item": "antiquated:furnace"}
+}

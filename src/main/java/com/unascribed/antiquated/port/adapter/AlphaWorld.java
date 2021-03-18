@@ -13,6 +13,7 @@ import net.minecraft.block.SnowyBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.Heightmap.Type;
@@ -40,6 +41,12 @@ public class AlphaWorld implements AntiqueBlockAccess {
 		this.delegate = delegate;
 		this.randomSeed = seed;
 		this.rand = delegate.getRandom();
+		if (delegate instanceof ServerWorld) {
+			BlockPos bp = ((ServerWorld)delegate).getSpawnPos();
+			spawnX = bp.getX()+0.5f;
+			spawnY = bp.getY();
+			spawnZ = bp.getZ()+0.5f;
+		}
 	}
 	
 	public Iterable<? extends PlayerEntity> getPlayerEntities() {

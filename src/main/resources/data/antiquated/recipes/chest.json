@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+	"ppp",
+	"p p",
+	"ppp"
+	],
+	"key": {
+		"p": [
+			{"item": "antiquated:planks"},
+			{"item": "antiquated:planks_old"}
+		]
+	},
+	"result": {"item": "antiquated:chest"}
+}

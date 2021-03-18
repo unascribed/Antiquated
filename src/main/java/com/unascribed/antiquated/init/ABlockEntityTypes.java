@@ -1,6 +1,6 @@
 package com.unascribed.antiquated.init;
 
-import com.unascribed.antiquated.AntiqueChestBlockEntity;
+import com.unascribed.antiquated.block.AntiqueChestBlockEntity;
 
 import com.google.common.collect.ImmutableSet;
 
