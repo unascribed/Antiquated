@@ -39,14 +39,14 @@ public abstract class MixinHandledScreen extends Screen {
 	
 	@Inject(at=@At("TAIL"), method="mouseClicked")
 	public void mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> ci) {
-		if (AntiquatedClient.isInAntiqueBiome()) {
+		if (AntiquatedClient.isInCursedAntiqueBiome()) {
 			cursorDragging = false;
 		}
 	}
 	
 	@Inject(at=@At("HEAD"), method="handleHotbarKeyPressed", cancellable=true)
 	protected void handleHotbarKeyPressed(int keyCode, int scanCode, CallbackInfoReturnable<Boolean> ci) {
-		if (AntiquatedClient.isInAntiqueBiome()) {
+		if (AntiquatedClient.isInCursedAntiqueBiome()) {
 			ci.setReturnValue(false);
 		}
 	}

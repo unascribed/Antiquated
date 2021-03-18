@@ -784,4 +784,29 @@ public class ABlocks {
 		}
 	};
 	
+	public static final Block CLOTH_RED = makeCloth(MaterialColor.RED);
+	public static final Block CLOTH_ORANGE = makeCloth(MaterialColor.ORANGE);
+	public static final Block CLOTH_YELLOW = makeCloth(MaterialColor.YELLOW);
+	public static final Block CLOTH_LIME = makeCloth(MaterialColor.LIME);
+	public static final Block CLOTH_GREEN = makeCloth(MaterialColor.LIME);
+	public static final Block CLOTH_MINT = makeCloth(MaterialColor.EMERALD);
+	public static final Block CLOTH_CYAN = makeCloth(MaterialColor.ICE);
+	public static final Block CLOTH_PERIWINKLE = makeCloth(MaterialColor.ICE);
+	public static final Block CLOTH_LILAC = makeCloth(MaterialColor.PURPLE);
+	public static final Block CLOTH_PURPLE = makeCloth(MaterialColor.PURPLE);
+	public static final Block CLOTH_LAVENDER = makeCloth(MaterialColor.PURPLE);
+	public static final Block CLOTH_MAGENTA = makeCloth(MaterialColor.MAGENTA);
+	public static final Block CLOTH_PINK = makeCloth(MaterialColor.MAGENTA);
+	public static final Block CLOTH_GRAY = makeCloth(MaterialColor.GRAY);
+	public static final Block CLOTH_SILVER = makeCloth(MaterialColor.LIGHT_GRAY);
+	public static final Block CLOTH_WHITE = makeCloth(MaterialColor.WHITE);
+	
+	private static Block makeCloth(MaterialColor color) {
+		return new Block(FabricBlockSettings.of(Material.WOOL, color)
+			.sounds(BlockSoundGroup.WOOL)
+			.strength(0.8f)
+			.breakByTool(FabricToolTags.SHEARS));
+	}
+	
+	
 }
