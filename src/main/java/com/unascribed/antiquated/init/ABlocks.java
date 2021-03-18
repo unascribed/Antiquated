@@ -31,6 +31,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CactusBlock;
 import net.minecraft.block.ChestBlock;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.DoubleBlockProperties;
 import net.minecraft.block.FluidBlock;
@@ -42,6 +43,7 @@ import net.minecraft.block.RedstoneOreBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SnowBlock;
 import net.minecraft.block.SnowyBlock;
+import net.minecraft.block.StonecutterBlock;
 import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.TransparentBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -808,5 +810,26 @@ public class ABlocks {
 			.breakByTool(FabricToolTags.SHEARS));
 	}
 	
+	public static final Block DISPENSER = new DispenserBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+			.sounds(ASounds.STONE_SOUNDS)
+			.breakByTool(FabricToolTags.PICKAXES)
+			.requiresTool()
+			.strength(3.5F)) {
+		@Override
+		public BlockState getPlacementState(ItemPlacementContext ctx) {
+			return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+		}
+	};
+			
+	public static final Block STONECUTTER = new StonecutterBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+			.sounds(ASounds.STONE_SOUNDS)
+			.breakByTool(FabricToolTags.PICKAXES)
+			.requiresTool()
+			.strength(3.5F)) {
+		@Override
+		public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+			return VoxelShapes.fullCube();
+		}
+	};
 	
 }

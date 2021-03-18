@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+  	"particle": "antiquated:block/device_top",
+    "top": "antiquated:block/device_top",
+    "north": "antiquated:block/dispenser_front",
+    "side": "antiquated:block/furnace_side"
+  }
+}

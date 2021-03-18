@@ -176,6 +176,10 @@ public class Antiquated implements ModInitializer {
 		Set<Block> newFurnaceBlocks = Sets.newHashSet(((AccessorBlockEntityType)BlockEntityType.FURNACE).antiquated$getBlocks());
 		newFurnaceBlocks.add(ABlocks.FURNACE);
 		((AccessorBlockEntityType)BlockEntityType.FURNACE).antiquated$setBlocks(newFurnaceBlocks);
+		
+		Set<Block> newDispenserBlocks = Sets.newHashSet(((AccessorBlockEntityType)BlockEntityType.DISPENSER).antiquated$getBlocks());
+		newDispenserBlocks.add(ABlocks.DISPENSER);
+		((AccessorBlockEntityType)BlockEntityType.DISPENSER).antiquated$setBlocks(newDispenserBlocks);
 	}
 	
 	public static boolean isAntiqueWorld(World world, BiomeSource src) {

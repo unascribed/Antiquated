@@ -27,7 +27,8 @@
   	"MixinFluidBlock",
   	"MixinDoorBlock",
   	"AccessorThreadedAnvilChunkStorage",
-  	"AccessorCreeperEntity"
+  	"AccessorCreeperEntity",
+  	"MixinStonecutterScreenHandler"
   ],
   "client": [
   	"MixinScreen",

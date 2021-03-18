@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+  	"particle": "antiquated:block/stonecutter_top",
+    "up": "antiquated:block/stonecutter_top",
+    "down": "antiquated:block/device_top",
+    "north": "antiquated:block/stonecutter_front",
+    "south": "antiquated:block/stonecutter_front",
+    "west": "antiquated:block/furnace_side",
+    "east": "antiquated:block/furnace_side"
+  }
+}
