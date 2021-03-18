@@ -43,6 +43,7 @@ import net.minecraft.block.RedstoneOreBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SnowBlock;
 import net.minecraft.block.SnowyBlock;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.block.StonecutterBlock;
 import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.TransparentBlock;
@@ -826,6 +827,28 @@ public class ABlocks {
 			.breakByTool(FabricToolTags.PICKAXES)
 			.requiresTool()
 			.strength(3.5F)) {
+		@Override
+		public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+			return VoxelShapes.fullCube();
+		}
+	};
+	
+	public static final Block COBBLESTONE_STAIRS = new StairsBlock(COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+			.sounds(ASounds.STONE_SOUNDS)
+			.breakByTool(FabricToolTags.PICKAXES)
+			.strength(2.0f, 10f)
+			.requiresTool()) {
+		@Override
+		public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+			return VoxelShapes.fullCube();
+		}
+	};
+			
+	public static final Block WOOD_STAIRS = new StairsBlock(COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
+			.sounds(ASounds.WOOD_SOUNDS)
+			.breakByTool(FabricToolTags.PICKAXES)
+			.strength(2.0f, 10f)
+			.requiresTool()) {
 		@Override
 		public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 			return VoxelShapes.fullCube();

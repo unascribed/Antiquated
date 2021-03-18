@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+	"p  ",
+	"pp ",
+	"ppp"
+	],
+	"key": {
+		"p": {
+			"item": "antiquated:planks"
+		}
+	},
+	"result": {"item": "antiquated:wood_stairs"}
+}

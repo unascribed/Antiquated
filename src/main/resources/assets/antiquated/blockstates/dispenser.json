@@ -14,6 +14,12 @@
     "facing=west": {
       "model": "antiquated:block/dispenser",
       "y": 270
+    },
+    "facing=up": {
+      "model": "antiquated:block/sponge"
+    },
+    "facing=down": {
+      "model": "antiquated:block/obsidian"
     }
   }
 }

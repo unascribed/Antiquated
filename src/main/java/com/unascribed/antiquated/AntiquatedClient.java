@@ -17,6 +17,7 @@ import com.unascribed.antiquated.init.AScreenHandlerTypes;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
@@ -31,6 +32,7 @@ import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.ArrowEntityRenderer;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 
@@ -87,6 +89,10 @@ public class AntiquatedClient implements ClientModInitializer {
 			registry.register(WATER_FLOW);
 			registry.register(LAVA_STILL);
 			registry.register(LAVA_FLOW);
+		});
+		ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> {
+			out.accept(new ModelIdentifier("antiquated:cobblestone_stairs_gui#inventory"));
+			out.accept(new ModelIdentifier("antiquated:wood_stairs_gui#inventory"));
 		});
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.PIG, (erd, ctx) -> new AntiquePigRenderer(erd));
 		EntityRendererRegistry.INSTANCE.register(AEntityTypes.COW, (erd, ctx) -> new AntiqueCowRenderer(erd));

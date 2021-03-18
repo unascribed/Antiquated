@@ -1,0 +1,6 @@
+{
+	"parent": "antiquated:item/bugged_stair",
+	"textures": {
+		"all": "antiquated:block/planks"
+	}
+}

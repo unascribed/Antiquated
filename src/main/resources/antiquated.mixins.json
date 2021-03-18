@@ -47,7 +47,8 @@
   	"MixinBackgroundRenderer",
   	"MixinHeldItemRenderer",
   	"MixinFluidRenderer",
-  	"MixinClientPlayNetworkHandler"
+  	"MixinClientPlayNetworkHandler",
+  	"MixinItemRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

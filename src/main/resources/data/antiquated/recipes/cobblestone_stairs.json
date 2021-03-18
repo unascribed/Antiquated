@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+	"#  ",
+	"## ",
+	"###"
+	],
+	"key": {
+		"#": {
+			"item": "antiquated:cobblestone"
+		}
+	},
+	"result": {"item": "antiquated:cobblestone_stairs"}
+}
