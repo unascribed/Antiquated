@@ -49,6 +49,7 @@ import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.TransparentBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.block.enums.StairShape;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
@@ -638,6 +639,11 @@ public class ABlocks {
 		public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
 			onUse(state, world, pos, player, null, null);
 		}
+		
+		@Override
+		public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
+			return VoxelShapes.empty();
+		}
 	};
 			
 	public static final Block GLASS = new TransparentBlock(FabricBlockSettings.of(Material.ICE, MaterialColor.ICE)
@@ -842,6 +848,21 @@ public class ABlocks {
 		public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 			return VoxelShapes.fullCube();
 		}
+		
+		@Override
+		public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+			return super.getOutlineShape(state.with(StairsBlock.SHAPE, StairShape.STRAIGHT), world, pos, context);
+		}
+		
+		@Override
+		public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
+			return state.getCollisionShape(world, pos);
+		}
+		
+		@Override
+		public boolean tryFillWithFluid(WorldAccess world, BlockPos pos, BlockState state, FluidState fluidState) {
+			return false;
+		}
 	};
 			
 	public static final Block WOOD_STAIRS = new StairsBlock(COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
@@ -852,6 +873,21 @@ public class ABlocks {
 		@Override
 		public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 			return VoxelShapes.fullCube();
+		}
+		
+		@Override
+		public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+			return super.getOutlineShape(state.with(StairsBlock.SHAPE, StairShape.STRAIGHT), world, pos, context);
+		}
+		
+		@Override
+		public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
+			return state.getCollisionShape(world, pos);
+		}
+		
+		@Override
+		public boolean tryFillWithFluid(WorldAccess world, BlockPos pos, BlockState state, FluidState fluidState) {
+			return false;
 		}
 	};
 	
