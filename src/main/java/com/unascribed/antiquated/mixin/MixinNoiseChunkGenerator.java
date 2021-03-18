@@ -2,6 +2,7 @@ package com.unascribed.antiquated.mixin;
 
 import java.util.Arrays;
 
+import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -46,7 +47,7 @@ public abstract class MixinNoiseChunkGenerator extends ChunkGenerator {
 			BlockPos.Mutable mut = new BlockPos.Mutable();
 			for (int x = 0; x < 16; x++) {
 				for (int z = 0; z < 16; z++) {
-					Biome b = region.getBiome(mut.set(chunk.getPos().getStartX()+x, chunk.sampleHeightmap(Heightmap.Type.WORLD_SURFACE_WG, x, z)+1, chunk.getPos().getStartZ()+z));
+					Biome b = region.getBiome(mut.set(chunk.getPos().getStartX()+x, chunk.sampleHeightmap(Heightmap.Type.WORLD_SURFACE, x, z)+1, chunk.getPos().getStartZ()+z));
 					Identifier id = region.toServerWorld().getRegistryManager().get(Registry.BIOME_KEY).getId(b);
 					if (id != null && id.getNamespace().equals("antiquated")) {
 						boolean winter = b.getCategory() == Category.ICY;
@@ -66,7 +67,12 @@ public abstract class MixinNoiseChunkGenerator extends ChunkGenerator {
 				}
 			}
 			if (biomeToReplaceWith != null) {
-				Arrays.fill(((AccessorBiomeArray)chunk.getBiomeArray()).antiquated$getData(), biomeToReplaceWith);
+				Biome[] data = ((AccessorBiomeArray)chunk.getBiomeArray()).antiquated$getData();
+				if (data == null) {
+					LogManager.getLogger("Antiquated").warn("Biome data array at chunk "+chunk.getPos().x+", "+chunk.getPos().z+" is null!");
+				} else {
+					Arrays.fill(data, biomeToReplaceWith);
+				}
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();
