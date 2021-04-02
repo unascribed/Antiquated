@@ -1,25 +1,28 @@
 package com.unascribed.antiquated.init;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-
 import org.jetbrains.annotations.Nullable;
 
 import com.unascribed.antiquated.AntiquatedComponents;
 import com.unascribed.antiquated.HighStackScreenHandlerWrapper;
 import com.unascribed.antiquated.Technical;
+import com.unascribed.antiquated.TimeEquivalents;
 import com.unascribed.antiquated.block.AntiqueChestBlockEntity;
 import com.unascribed.antiquated.block.AntiqueFlowerBlock;
 import com.unascribed.antiquated.block.AntiqueLeavesBlock;
 import com.unascribed.antiquated.block.AntiqueMushroomBlock;
 import com.unascribed.antiquated.block.AntiqueSaplingBlock;
 import com.unascribed.antiquated.block.IdentitySilkTouchBlock;
+import com.unascribed.antiquated.block.RuneBlock;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -34,6 +37,7 @@ import net.minecraft.block.ChestBlock;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.DoubleBlockProperties;
+import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.FluidDrainable;
 import net.minecraft.block.FurnaceBlock;
@@ -68,7 +72,10 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Property;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -183,12 +190,12 @@ public class ABlocks {
 			.suffocates((state, world, pos) -> false)
 			.blockVision((state, world, pos) -> false));
 	
-	public static final Block GRAVEL = new Block(FabricBlockSettings.of(Material.AGGREGATE, MaterialColor.GRAY)
+	public static final Block GRAVEL = new FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MaterialColor.GRAY)
 			.sounds(ASounds.GRAVEL_SOUNDS)
 			.breakByTool(FabricToolTags.SHOVELS)
 			.strength(0.6f));
 	
-	public static final Block SAND = new Block(FabricBlockSettings.of(Material.AGGREGATE, MaterialColor.SAND)
+	public static final Block SAND = new FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MaterialColor.SAND)
 			.sounds(ASounds.SAND_SOUNDS)
 			.breakByTool(FabricToolTags.SHOVELS)
 			.strength(0.5f));
@@ -341,10 +348,162 @@ public class ABlocks {
 
 	};
 	
-	public static final Block PLANKS_OLD = new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
+	public static final Block PLANKS_OLD = new RuneBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
 			.sounds(ASounds.WOOD_SOUNDS)
 			.breakByTool(FabricToolTags.AXES)
-			.strength(2.0f, 5.0f));
+			.strength(2.0f, 5.0f))
+		.addLayer(
+				"       ",
+				"       ",
+				"       ",
+				"   P   ",
+				"       ",
+				"       ",
+				"       "
+			)
+		.addLayer(
+				" ##### ",
+				"##OXO##",
+				"#LGOGW#",
+				"#LD DW#",
+				"#LGOGW#",
+				"##OXO##",
+				" ##### "
+			)
+		.addLayer(
+				" +++++ ",
+				"++   ++",
+				"+ +++ +",
+				"+ + + +",
+				"+ +++ +",
+				"++   ++",
+				" +++++ "
+			)
+		.recognize('P', () -> ABlocks.PLANKS_OLD)
+		.recognize('#', () -> Blocks.IRON_BLOCK, () -> ABlocks.IRON_BLOCK)
+		.recognize('O', () -> ABlocks.OBSIDIAN, () -> ABlocks.ANCH_OBSIDIAN, () -> Blocks.OBSIDIAN)
+		.recognize('L', () -> ABlocks.LAVA, () -> Blocks.LAVA)
+		.recognize('G', () -> Blocks.GOLD_BLOCK, () -> ABlocks.GOLD_BLOCK)
+		.recognize('W', () -> ABlocks.WATER, () -> Blocks.WATER)
+		.recognize('D', () -> Blocks.DIAMOND_BLOCK, () -> ABlocks.DIAMOND_BLOCK)
+		.recognize('+', () -> Blocks.REDSTONE_WIRE)
+		.dontCare('X')
+		.replace('O', () -> ABlocks.ANCH_OBSIDIAN)
+		.cast((world, pos, blocks) -> {
+			world.breakBlock(pos.up(), false);
+			int fuelNeeded = 30;
+			if (pos.getY() < 128) {
+				fuelNeeded *= 2;
+			}
+			boolean allWaterModern = true;
+			for (BlockPos bp : blocks.get('W')) {
+				if (world.getBlockState(bp).isOf(ABlocks.WATER)) {
+					allWaterModern = false;
+					break;
+				}
+			}
+			boolean allLavaModern = true;
+			for (BlockPos bp : blocks.get('W')) {
+				if (world.getBlockState(bp).isOf(ABlocks.LAVA)) {
+					allLavaModern = false;
+					break;
+				}
+			}
+			if (allLavaModern != allWaterModern) fuelNeeded /= 2;
+			Map<BlockPos, BlockState> newFuelStates = Maps.newHashMap();
+			List<BlockPos> fuelBlocks = Lists.newArrayList();
+			addShuffled(fuelBlocks, blocks.get('#'));
+			addShuffled(fuelBlocks, blocks.get('+'));
+			addShuffled(fuelBlocks, blocks.get('G'));
+			addShuffled(fuelBlocks, blocks.get('D'));
+			int antiqueFuelNeeded = 0;
+			int modernFuelNeeded = 0;
+			Map<BlockPos, BlockState> transformations = Maps.newHashMap();
+			for (BlockPos bp : blocks.get('X')) {
+				BlockState bs = world.getBlockState(bp);
+				Block result = null;
+				if (TimeEquivalents.EQUIVS.containsKey(bs.getBlock())) {
+					modernFuelNeeded += fuelNeeded;
+					result = TimeEquivalents.EQUIVS.get(bs.getBlock());
+				} else if (TimeEquivalents.EQUIVS.inverse().containsKey(bs.getBlock())) {
+					antiqueFuelNeeded += fuelNeeded;
+					result = TimeEquivalents.EQUIVS.inverse().get(bs.getBlock());
+				} else {
+					continue;
+				}
+				BlockState newState = result.getDefaultState();
+				for (Property prop : bs.getProperties()) {
+					if (newState.contains(prop)) {
+						newState = newState.with(prop, bs.get(prop));
+					}
+				}
+				transformations.put(bp, newState);
+			}
+			if (transformations.isEmpty()) {
+				world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 0.5f);
+				for (BlockPos bp : blocks.get('X')) {
+					world.spawnParticles(ParticleTypes.SMOKE, bp.getX()+0.5, bp.getY(), bp.getZ()+0.5, 12, 0.2, 0, 0.2, 0);
+				}
+				return;
+			}
+			int ultimateFuelNeeded = 0;
+			Map<Block, Integer> fuelMap = null;
+			BiMap<Block, Block> fuelByproductMap = null;
+			if (antiqueFuelNeeded > modernFuelNeeded) {
+				fuelMap = TimeEquivalents.FUEL_VALUES_ANTIQUIZE;
+				fuelByproductMap = TimeEquivalents.EQUIVS;
+				ultimateFuelNeeded = antiqueFuelNeeded-modernFuelNeeded;
+			} else if (modernFuelNeeded > antiqueFuelNeeded) {
+				fuelMap = TimeEquivalents.FUEL_VALUES_MODERNIZE;
+				fuelByproductMap = TimeEquivalents.EQUIVS.inverse();
+				ultimateFuelNeeded = modernFuelNeeded-antiqueFuelNeeded;
+			}
+			boolean paidInFull = true;
+			if (fuelMap != null && fuelByproductMap != null) {
+				paidInFull = false;
+				int fuelFound = 0;
+				for (BlockPos fuel : fuelBlocks) {
+					BlockState fuelState = world.getBlockState(fuel);
+					Block fuelBlock = fuelState.getBlock();
+					if (fuelMap.containsKey(fuelBlock)) {
+						fuelFound += fuelMap.get(fuelBlock);
+						if (fuelByproductMap.containsKey(fuelBlock)) {
+							newFuelStates.put(fuel, fuelByproductMap.get(fuelBlock).getDefaultState());
+						} else {
+							newFuelStates.put(fuel, Blocks.AIR.getDefaultState());
+						}
+						if (fuelFound >= ultimateFuelNeeded) break;
+					}
+				}
+				if (fuelFound >= ultimateFuelNeeded) {
+					for (Map.Entry<BlockPos, BlockState> en : newFuelStates.entrySet()) {
+						world.syncWorldEvent(null, 2001, en.getKey(), Block.getRawIdFromState(world.getBlockState(en.getKey())));
+						world.setBlockState(en.getKey(), en.getValue());
+					}
+					paidInFull = true;
+				}
+			}
+			if (paidInFull) {
+				world.playSound(null, pos, ASounds.EXPLODE, SoundCategory.BLOCKS, 1, 0.5f);
+				for (Map.Entry<BlockPos, BlockState> trans : transformations.entrySet()) {
+					world.syncWorldEvent(null, 2001, trans.getKey(), Block.getRawIdFromState(world.getBlockState(trans.getKey())));
+					world.setBlockState(trans.getKey(), trans.getValue());
+				}
+				world.syncWorldEvent(null, 2001, pos, Block.getRawIdFromState(ABlocks.PLANKS.getDefaultState()));
+				world.setBlockState(pos, ABlocks.PLANKS.getDefaultState());
+			} else {
+				world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 0.5f);
+				for (BlockPos bp : blocks.get('+')) {
+					world.spawnParticles(ParticleTypes.SMOKE, bp.getX()+0.5, bp.getY(), bp.getZ()+0.5, 12, 0.2, 0, 0.2, 0);
+				}
+			}
+		});
+	
+	private static <T> void addShuffled(List<T> to, Iterable<T> from) {
+		List<T> copy = Lists.newArrayList(from);
+		Collections.shuffle(copy);
+		to.addAll(copy);
+	}
 	
 	public static final Block WOOD_OLD = new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
 			.sounds(ASounds.WOOD_SOUNDS)
@@ -410,125 +569,57 @@ public class ABlocks {
 			.strength(50, 1200)
 			.requiresTool());
 	
-	public static final Block ANCH_OBSIDIAN = new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.PURPLE)
+	public static final Block ANCH_OBSIDIAN = new RuneBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.PURPLE)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES, 3)
 			.strength(50, 1200)
-			.requiresTool()) {
-		@Override
-		public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-			if (!(world instanceof ServerWorld)) return;
-			if (fromPos.equals(pos.up()) && world.getBlockState(fromPos).getBlock() == Blocks.FIRE) {
-				ServerWorld sw = (ServerWorld)world;
-				for (ServerPlayerEntity pe : sw.getPlayers()) {
-					if (pe.squaredDistanceTo(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5) < 8*8) {
-						pe.getAdvancementTracker().grantCriterion(world.getServer().getAdvancementLoader().get(new Identifier("antiquated", "ignite_anch_obsidian")), "minecraft:impossible");
-					}
-				}
-				String[] patternBottom = {
-					"       ",
-					"       ",
-					"  OzO  ",
-					"  zOz  ",
-					"  OzO  ",
-					"       ",
-					"       "
-				};
-				String[] patternTop = {
-					"   #   ",
-					"  #P#  ",
-					" #A#A# ",
-					"#m# #M#",
-					" #A#A# ",
-					"  #p#  ",
-					"   #   "
-				};
-				String[][] patterns = {
-						patternBottom, patternTop
-				};
-				Map<Character, Block> blocks = Maps.newHashMap();
-				blocks.put(' ', null);
-				blocks.put('z', null);
-				blocks.put('O', ABlocks.ANCH_OBSIDIAN);
-				blocks.put('#', ABlocks.ANCH_COBBLESTONE);
-				blocks.put('P', Blocks.OAK_PLANKS);
-				blocks.put('A', Blocks.AIR);
-				blocks.put('m', ABlocks.COBBLESTONE_MOSSY);
-				blocks.put('M', Blocks.MOSSY_COBBLESTONE);
-				blocks.put('p', ABlocks.PLANKS_OLD);
-				int wrong = 0;
-				BlockPos.Mutable mut = new BlockPos.Mutable();
-				out: for (int y = 0; y < patterns.length; y++) {
-					for (int x = 0; x < patternBottom[0].length(); x++) {
-						for (int z = 0; z < patternBottom.length; z++) {
-							char c = patterns[y][x].charAt(z);
-							if (!blocks.containsKey(c)) {
-								System.err.println("Unknown rune component "+c);
-							}
-							Block want = blocks.get(c);
-							if (want == null) {
-								// null = don't care
-								continue;
-							}
-							mut.set(pos).move(x-3, y, z-3);
-							BlockState have = world.getBlockState(mut);
-							boolean matches;
-							if (want == Blocks.AIR) {
-								matches = have.isAir();
-							} else {
-								matches = have.isOf(want);
-							}
-							if (!matches) {
-								if (want == Blocks.AIR) {
-									world.breakBlock(mut, false);
-								} else {
-									world.syncWorldEvent(null, 2001, mut, Block.getRawIdFromState(want.getDefaultState()));
-									world.setBlockState(fromPos, block.getDefaultState());
-									wrong++;
-									if (wrong > 3) break out;
-								}
-							}
-						}
-					}
-				}
-				if (wrong > 0) {
-					world.syncWorldEvent(null, 1009, fromPos, 0);
-					return;
-				}
-				for (int y = 0; y < patterns.length; y++) {
-					for (int x = 0; x < patternBottom[0].length(); x++) {
-						for (int z = 0; z < patternBottom.length; z++) {
-							char c = patterns[y][x].charAt(z);
-							if (blocks.get(c) != null || c == 'z') {
-								mut.set(pos).move(x-3, y, z-3);
-								if (c == 'O' || c == 'z') {
-									world.setBlockState(mut, Blocks.CRYING_OBSIDIAN.getDefaultState());
-								} else {
-									world.breakBlock(mut, false);
-								}
-							}
-						}
-					}
-				}
-				LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
-				lightning.setCosmetic(true);
-				lightning.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(fromPos));
-				world.spawnEntity(lightning);
-				ChunkPos cp = new ChunkPos(pos);
-				for (int x = -16; x <= 16; x++) {
-					for (int z = -16; z <= 16; z++) {
-						Chunk c = world.getChunk(cp.x+x, cp.z+z, ChunkStatus.BIOMES, true);
-						AntiquatedComponents.UNCURSED.get(c).setStrength(4);
-					}
-				}
-				for (ServerPlayerEntity pe : sw.getPlayers()) {
-					if (pe.squaredDistanceTo(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5) < 8*8) {
-						pe.getAdvancementTracker().grantCriterion(world.getServer().getAdvancementLoader().get(new Identifier("antiquated", "ritual")), "minecraft:impossible");
-					}
+			.requiresTool())
+		.addLayer(
+				"       ",
+				"       ",
+				"  OzO  ",
+				"  zOz  ",
+				"  OzO  ",
+				"       ",
+				"       "
+			)
+		.addLayer(
+				"   #   ",
+				"  #P#  ",
+				" #A#A# ",
+				"#m# #M#",
+				" #A#A# ",
+				"  #p#  ",
+				"   #   "
+			)
+		.consume('O', () -> ABlocks.ANCH_OBSIDIAN)
+		.consume('#', () -> ABlocks.ANCH_COBBLESTONE)
+		.consume('P', () -> Blocks.OAK_PLANKS)
+		.consume('A', () -> Blocks.AIR)
+		.consume('m', () -> ABlocks.COBBLESTONE_MOSSY)
+		.consume('M', () -> Blocks.MOSSY_COBBLESTONE)
+		.consume('p', () -> ABlocks.PLANKS_OLD)
+		.dontCare('z')
+		.replace('O', () -> Blocks.CRYING_OBSIDIAN)
+		.replace('z', () -> Blocks.CRYING_OBSIDIAN)
+		.cast((world, pos, blocks) -> {
+			LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
+			lightning.setCosmetic(true);
+			lightning.refreshPositionAfterTeleport(Vec3d.ofCenter(pos, 1));
+			world.spawnEntity(lightning);
+			ChunkPos cp = new ChunkPos(pos);
+			for (int x = -16; x <= 16; x++) {
+				for (int z = -16; z <= 16; z++) {
+					Chunk c = world.getChunk(cp.x+x, cp.z+z, ChunkStatus.BIOMES, true);
+					AntiquatedComponents.UNCURSED.get(c).setStrength(4);
 				}
 			}
-		}
-	};
+			for (ServerPlayerEntity pe : world.getPlayers()) {
+				if (pe.squaredDistanceTo(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5) < 8*8) {
+					pe.getAdvancementTracker().grantCriterion(world.getServer().getAdvancementLoader().get(new Identifier("antiquated", "ritual")), "minecraft:impossible");
+				}
+			}
+		});
 	
 	public static final Block ANCH_COBBLESTONE = new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
 			.sounds(ASounds.STONE_SOUNDS)
@@ -790,6 +881,13 @@ public class ABlocks {
 			List<ItemStack> identity = IdentitySilkTouchBlock.handle(state, builder);
 			if (identity != null) return identity;
 			return super.getDroppedStacks(state, builder);
+		}
+		
+		@Override
+		public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, BlockPos pos) {
+			// never give an effective tool bonus
+			// reimplements an Alpha bug
+			return player.getBlockBreakingSpeed(state) / state.getHardness(world, pos) / 100f;
 		}
 	};
 	

@@ -136,6 +136,7 @@ public class AntiquatedClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(new Identifier("antiquated", "is_antique_world"), (client, handler, buf, responseSender) -> {
 			antiqueWorld = true;
 		});
+		
 	}
 
 	public static boolean isInAntiqueBiome() {

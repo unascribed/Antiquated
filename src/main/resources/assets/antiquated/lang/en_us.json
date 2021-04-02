@@ -95,6 +95,11 @@
 	"entity.antiquated.skeleton": "Antique Skeleton",
 	"entity.antiquated.zombie": "Antique Zombie",
 	"entity.antiquated.spider": "Antique Spider",
+	"entity.antiquated.creeper": "Antique Creeper",
+	"entity.antiquated.chicken": "Antique Chicken",
+	"entity.antiquated.arrow": "Antique Arrow",
+	"entity.antiquated.sheep": "Antique Sheep",
+	"entity.antiquated.skeleton_arrow": "Antique Skeleton Arrow",
 	
 	"enchantment.antiquated.legacy_curse": "Curse of Legacy",
 	
