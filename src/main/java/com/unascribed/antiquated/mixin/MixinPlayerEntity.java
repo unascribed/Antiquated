@@ -1,5 +1,9 @@
 package com.unascribed.antiquated.mixin;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.vehicle.AbstractMinecartEntity;
+import net.minecraft.entity.vehicle.BoatEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +27,11 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
 @Mixin(PlayerEntity.class)
-public class MixinPlayerEntity {
+abstract public class MixinPlayerEntity extends LivingEntity {
+
+	protected MixinPlayerEntity(EntityType<? extends LivingEntity> entityType, World world) {
+		super(entityType, world);
+	}
 
 	@Inject(at=@At("HEAD"), method="canConsume(Z)Z", cancellable=true)
 	public void canConsume(boolean alwaysEdible, CallbackInfoReturnable<Boolean> ci) {
@@ -63,4 +71,16 @@ public class MixinPlayerEntity {
 			ci.cancel();
 		}
 	}
+	@Inject(at=@At("HEAD"), method="shouldDismount()Z",
+			cancellable=true)
+	public void shouldDismount(CallbackInfoReturnable<Boolean> ci) {
+		//TODO
+		//-rm "Press SHIFT to dismount" text
+		//-being able to hit boat and cart
+		Object self = this;
+		if (self instanceof PlayerEntity && Antiquated.isInAntiqueBiome(this) && ((PlayerEntity)self).hasVehicle() && (((PlayerEntity)self).getVehicle() instanceof AbstractMinecartEntity || ((PlayerEntity)self).getVehicle() instanceof BoatEntity)) {
+			ci.setReturnValue(false);
+		}
+	}
+
 }
