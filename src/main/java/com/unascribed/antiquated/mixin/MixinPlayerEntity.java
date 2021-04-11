@@ -75,7 +75,6 @@ abstract public class MixinPlayerEntity extends LivingEntity {
 			cancellable=true)
 	public void shouldDismount(CallbackInfoReturnable<Boolean> ci) {
 		//TODO
-		//-rm "Press SHIFT to dismount" text
 		//-being able to hit boat and cart
 		Object self = this;
 		if (self instanceof PlayerEntity && Antiquated.isInAntiqueBiome(this) && ((PlayerEntity)self).hasVehicle() && (((PlayerEntity)self).getVehicle() instanceof AbstractMinecartEntity || ((PlayerEntity)self).getVehicle() instanceof BoatEntity)) {

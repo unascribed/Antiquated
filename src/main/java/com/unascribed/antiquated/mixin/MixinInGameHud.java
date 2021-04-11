@@ -1,5 +1,6 @@
 package com.unascribed.antiquated.mixin;
 
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -85,6 +86,14 @@ public class MixinInGameHud {
 	
 	@Inject(at=@At("HEAD"), method="renderHeldItemTooltip", cancellable=true)
 	public void renderHeldItemTooltip(MatrixStack matrices, CallbackInfo ci) {
+		if (AntiquatedClient.isInCursedAntiqueBiome()) {
+			ci.cancel();
+		}
+	}
+
+	//Just in case: Lnet/minecraft/client/network/ClientPlayNetworkHandler onEntityPassengersSet
+	@Inject(at=@At("HEAD"), method = "setOverlayMessage(Lnet/minecraft/text/Text;Z)V", cancellable = true)
+	public void setOverlayMessage(Text message, boolean tinted, CallbackInfo ci) {
 		if (AntiquatedClient.isInCursedAntiqueBiome()) {
 			ci.cancel();
 		}
