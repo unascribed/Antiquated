@@ -94,7 +94,7 @@ public class MixinInGameHud {
 	//Just in case: Lnet/minecraft/client/network/ClientPlayNetworkHandler onEntityPassengersSet
 	@Inject(at=@At("HEAD"), method = "setOverlayMessage(Lnet/minecraft/text/Text;Z)V", cancellable = true)
 	public void setOverlayMessage(Text message, boolean tinted, CallbackInfo ci) {
-		if (AntiquatedClient.isInCursedAntiqueBiome()) {
+		if (AntiquatedClient.isInAntiqueBiome()) {
 			ci.cancel();
 		}
 	}
