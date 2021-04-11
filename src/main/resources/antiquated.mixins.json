@@ -50,7 +50,8 @@
   	"MixinHeldItemRenderer",
   	"MixinFluidRenderer",
   	"MixinClientPlayNetworkHandler",
-  	"MixinItemRenderer"
+  	"MixinItemRenderer",
+  	"MixinClientPlayerEntity"
   ],
   "injectors": {
     "defaultRequire": 1
