@@ -30,7 +30,8 @@
   	"AccessorCreeperEntity",
   	"MixinStonecutterScreenHandler",
   	"MixinExplosion",
-  	"MixinTntBlock"
+  	"MixinTntBlock",
+  	"MixinMinecartEntity"
   ],
   "client": [
   	"MixinScreen",
@@ -50,7 +51,8 @@
   	"MixinHeldItemRenderer",
   	"MixinFluidRenderer",
   	"MixinClientPlayNetworkHandler",
-  	"MixinItemRenderer"
+  	"MixinItemRenderer",
+	"MixinMinecraftClient"
   ],
   "injectors": {
     "defaultRequire": 1
