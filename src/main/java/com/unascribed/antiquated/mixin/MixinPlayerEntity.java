@@ -2,8 +2,6 @@ package com.unascribed.antiquated.mixin;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.entity.vehicle.BoatEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -75,7 +73,7 @@ abstract public class MixinPlayerEntity extends LivingEntity {
 			cancellable=true)
 	public void shouldDismount(CallbackInfoReturnable<Boolean> ci) {
 		Object self = this;
-		if (self instanceof PlayerEntity && Antiquated.isInCursedAntiqueBiome(this) && ((PlayerEntity)self).hasVehicle() && (((PlayerEntity)self).getVehicle() instanceof AbstractMinecartEntity || ((PlayerEntity)self).getVehicle() instanceof BoatEntity)) {
+		if (self instanceof PlayerEntity && Antiquated.isInCursedAntiqueBiome(this) && ((PlayerEntity)self).hasVehicle()) {
 			ci.setReturnValue(false);
 		}
 	}

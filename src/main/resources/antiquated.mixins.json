@@ -52,7 +52,7 @@
   	"MixinFluidRenderer",
   	"MixinClientPlayNetworkHandler",
   	"MixinItemRenderer",
-	"MixinMinecraftClient"
+	  "MixinGameRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -3,6 +3,7 @@ package com.unascribed.antiquated.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.vehicle.MinecartEntity;
 import net.minecraft.util.hit.EntityHitResult;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.function.Predicate;
 
 @Mixin(GameRenderer.class)
-public class MixinMinecraftClient <T extends Entity> {
+public class MixinGameRenderer<T extends Entity> {
 
 	@Shadow @Final private MinecraftClient client;
 
@@ -29,6 +30,7 @@ public class MixinMinecraftClient <T extends Entity> {
 	private void updateTargetedEntity(CallbackInfo ci){
 		if (client.crosshairTarget instanceof EntityHitResult && ((EntityHitResult)client.crosshairTarget).getEntity().hasPlayerRider()) {
 			this.client.targetedEntity = ((EntityHitResult)client.crosshairTarget).getEntity();
+			System.out.println("E"+((EntityHitResult) client.crosshairTarget).getEntity());
 		}
 	}
 }
