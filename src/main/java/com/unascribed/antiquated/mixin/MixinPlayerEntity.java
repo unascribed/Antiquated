@@ -1,5 +1,7 @@
 package com.unascribed.antiquated.mixin;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +25,11 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
 @Mixin(PlayerEntity.class)
-public class MixinPlayerEntity {
+abstract public class MixinPlayerEntity extends LivingEntity {
+
+	protected MixinPlayerEntity(EntityType<? extends LivingEntity> entityType, World world) {
+		super(entityType, world);
+	}
 
 	@Inject(at=@At("HEAD"), method="canConsume(Z)Z", cancellable=true)
 	public void canConsume(boolean alwaysEdible, CallbackInfoReturnable<Boolean> ci) {
@@ -63,4 +69,13 @@ public class MixinPlayerEntity {
 			ci.cancel();
 		}
 	}
+	@Inject(at=@At("HEAD"), method="shouldDismount()Z",
+			cancellable=true)
+	public void shouldDismount(CallbackInfoReturnable<Boolean> ci) {
+		Object self = this;
+		if (self instanceof PlayerEntity && Antiquated.isInCursedAntiqueBiome(this) && ((PlayerEntity)self).hasVehicle()) {
+			ci.setReturnValue(false);
+		}
+	}
+
 }
