@@ -6,7 +6,7 @@ import dev.onyxstudios.cca.api.v3.component.Component;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistryV3;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -34,12 +34,12 @@ public class AntiquatedComponents implements ChunkComponentInitializer {
 		}
 		
 		@Override
-		public void readFromNbt(CompoundTag tag) {
+		public void readFromNbt(NbtCompound tag) {
 			strength = tag.getInt("Strength");
 		}
 
 		@Override
-		public void writeToNbt(CompoundTag tag) {
+		public void writeToNbt(NbtCompound tag) {
 			tag.putInt("Strength", strength);
 		}
 		
@@ -52,7 +52,7 @@ public class AntiquatedComponents implements ChunkComponentInitializer {
 		public void applySyncPacket(PacketByteBuf buf) {
 			strength = buf.readVarInt();
 		}
-		
+
 	}
 	
 	public static final ComponentKey<UncursedComponent> UNCURSED = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier("antiquated", "uncursed"), UncursedComponent.class);

@@ -21,7 +21,7 @@ abstract public class MixinMinecartEntity extends AbstractMinecartEntity {
 	}
 	@Inject(at=@At("HEAD"), method="interact(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;", cancellable=true)
 	public void interact(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-		if (Antiquated.isInAntiqueBiome(player) && player.isSneaky() ) {
+		if (Antiquated.isInAntiqueBiome(player) && this == player.getVehicle()) {
 			player.stopRiding();
 			cir.setReturnValue(ActionResult.SUCCESS);
 		}
