@@ -39,7 +39,7 @@
   	"MixinHandledScreen",
   	"MixinItemEntityClient",
   	"MixinGameMenuScreen",
-  	"MixinAbstractButtonWidget",
+  	"MixinClickableWidget",
   	"MixinClientPlayerInteractionManager",
   	"MixinJsonUnbakedModel",
   	"MixinBuiltChunk",
@@ -50,7 +50,8 @@
   	"MixinHeldItemRenderer",
   	"MixinFluidRenderer",
   	"MixinClientPlayNetworkHandler",
-  	"MixinItemRenderer"
+  	"MixinItemRenderer",
+  	"MixinGameRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

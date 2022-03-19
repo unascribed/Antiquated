@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.6-SNAPSHOT'
+	id 'fabric-loom' version '0.7-SNAPSHOT'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -22,10 +22,10 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.7.13"
-	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.7.13"
-	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.7.13"
-	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.7.13"
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.8.3"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.8.3"
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.8.3"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.8.3"
 }
 
 minecraft {

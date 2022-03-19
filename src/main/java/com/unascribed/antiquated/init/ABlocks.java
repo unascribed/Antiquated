@@ -41,8 +41,8 @@ import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.FluidDrainable;
 import net.minecraft.block.FurnaceBlock;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
-import net.minecraft.block.MaterialColor;
 import net.minecraft.block.RedstoneOreBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SnowBlock;
@@ -97,24 +97,24 @@ import net.minecraft.world.chunk.light.ChunkLightProvider;
 
 public class ABlocks {
 
-	public static final Block STONE = new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block STONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.strength(1.5f, 10f)
 			.requiresTool());
 	
-	public static final Block COBBLESTONE = new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block COBBLESTONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.strength(2.0f, 10f)
 			.requiresTool());
 	
-	public static final Block DIRT = new Block(FabricBlockSettings.of(Material.SOIL, MaterialColor.DIRT)
+	public static final Block DIRT = new Block(FabricBlockSettings.of(Material.SOIL, MapColor.DIRT_BROWN)
 			.sounds(ASounds.GRAVEL_SOUNDS)
 			.breakByTool(FabricToolTags.SHOVELS)
 			.strength(0.5f));
 	
-	public static final Block GRASS = new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC, MaterialColor.LIME)
+	public static final Block GRASS = new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.LIME)
 			.sounds(ASounds.GRASS_SOUNDS)
 			.breakByTool(FabricToolTags.SHOVELS)
 			.ticksRandomly()
@@ -178,29 +178,29 @@ public class ABlocks {
 		}
 	};
 	
-	public static final Block WOOD = new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
+	public static final Block WOOD = new Block(FabricBlockSettings.of(Material.WOOD, MapColor.OAK_TAN)
 			.sounds(ASounds.WOOD_SOUNDS)
 			.breakByTool(FabricToolTags.AXES)
 			.strength(2.0f));
 	
-	public static final Block LEAVES = new AntiqueLeavesBlock(FabricBlockSettings.of(Material.LEAVES, MaterialColor.LIME)
+	public static final Block LEAVES = new AntiqueLeavesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.LIME)
 			.sounds(ASounds.GRASS_SOUNDS)
 			.strength(0.2f)
 			.nonOpaque()
 			.suffocates((state, world, pos) -> false)
 			.blockVision((state, world, pos) -> false));
 	
-	public static final Block GRAVEL = new FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MaterialColor.GRAY)
+	public static final Block GRAVEL = new FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.GRAY)
 			.sounds(ASounds.GRAVEL_SOUNDS)
 			.breakByTool(FabricToolTags.SHOVELS)
 			.strength(0.6f));
 	
-	public static final Block SAND = new FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MaterialColor.SAND)
+	public static final Block SAND = new FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.PALE_YELLOW)
 			.sounds(ASounds.SAND_SOUNDS)
 			.breakByTool(FabricToolTags.SHOVELS)
 			.strength(0.5f));
 	
-	public static final CactusBlock CACTUS = new CactusBlock(FabricBlockSettings.of(Material.CACTUS, MaterialColor.GREEN)
+	public static final CactusBlock CACTUS = new CactusBlock(FabricBlockSettings.of(Material.CACTUS, MapColor.GREEN)
 			.sounds(BlockSoundGroup.WOOL)
 			.ticksRandomly()
 			.strength(0.4f)) {
@@ -227,7 +227,7 @@ public class ABlocks {
 		
 	};
 	
-	public static final Block FURNACE = new FurnaceBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block FURNACE = new FurnaceBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.requiresTool()
@@ -255,18 +255,18 @@ public class ABlocks {
 		
 	};
 	
-	public static final Block COBBLESTONE_MOSSY = new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block COBBLESTONE_MOSSY = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.strength(2.0f, 10f)
 			.requiresTool());
 	
-	public static final Block PLANKS = new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
+	public static final Block PLANKS = new Block(FabricBlockSettings.of(Material.WOOD, MapColor.OAK_TAN)
 			.sounds(ASounds.WOOD_SOUNDS)
 			.breakByTool(FabricToolTags.AXES)
 			.strength(2.0f, 5.0f));
 	
-	public static final Block CHEST = new ChestBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
+	public static final Block CHEST = new ChestBlock(FabricBlockSettings.of(Material.WOOD, MapColor.OAK_TAN)
 			.sounds(ASounds.WOOD_SOUNDS)
 			.breakByTool(FabricToolTags.AXES)
 			.strength(2.5f), () -> ABlockEntityTypes.CHEST) {
@@ -348,7 +348,7 @@ public class ABlocks {
 
 	};
 	
-	public static final Block PLANKS_OLD = new RuneBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
+	public static final Block PLANKS_OLD = new RuneBlock(FabricBlockSettings.of(Material.WOOD, MapColor.OAK_TAN)
 			.sounds(ASounds.WOOD_SOUNDS)
 			.breakByTool(FabricToolTags.AXES)
 			.strength(2.0f, 5.0f))
@@ -505,7 +505,7 @@ public class ABlocks {
 		to.addAll(copy);
 	}
 	
-	public static final Block WOOD_OLD = new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
+	public static final Block WOOD_OLD = new Block(FabricBlockSettings.of(Material.WOOD, MapColor.OAK_TAN)
 			.sounds(ASounds.WOOD_SOUNDS)
 			.breakByTool(FabricToolTags.AXES)
 			.strength(2.0f)) {
@@ -521,32 +521,32 @@ public class ABlocks {
 		}
 	};
 	
-	public static final Block LEAVES_OLD = new AntiqueLeavesBlock(FabricBlockSettings.of(Material.LEAVES, MaterialColor.LIME)
+	public static final Block LEAVES_OLD = new AntiqueLeavesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.LIME)
 			.sounds(ASounds.GRASS_SOUNDS)
 			.strength(0.2f)
 			.nonOpaque()
 			.suffocates((state, world, pos) -> false)
 			.blockVision((state, world, pos) -> false));
 	
-	public static final Block SAPLING = new AntiqueSaplingBlock(FabricBlockSettings.of(Material.PLANT, MaterialColor.LIME)
+	public static final Block SAPLING = new AntiqueSaplingBlock(FabricBlockSettings.of(Material.PLANT, MapColor.LIME)
 			.sounds(ASounds.GRASS_SOUNDS)
 			.noCollision()
 			.ticksRandomly()
 			.breakInstantly());
 	
-	public static final Block SAPLING_OLD = new AntiqueSaplingBlock(FabricBlockSettings.of(Material.PLANT, MaterialColor.LIME)
+	public static final Block SAPLING_OLD = new AntiqueSaplingBlock(FabricBlockSettings.of(Material.PLANT, MapColor.LIME)
 			.sounds(ASounds.GRASS_SOUNDS)
 			.noCollision()
 			.ticksRandomly()
 			.breakInstantly());
 	
-	public static final Block ROSE = new AntiqueFlowerBlock(FabricBlockSettings.of(Material.PLANT, MaterialColor.RED)
+	public static final Block ROSE = new AntiqueFlowerBlock(FabricBlockSettings.of(Material.PLANT, MapColor.RED)
 			.sounds(ASounds.GRASS_SOUNDS)
 			.noCollision()
 			.ticksRandomly()
 			.breakInstantly());
 	
-	public static final Block DANDELION = new AntiqueFlowerBlock(FabricBlockSettings.of(Material.PLANT, MaterialColor.YELLOW)
+	public static final Block DANDELION = new AntiqueFlowerBlock(FabricBlockSettings.of(Material.PLANT, MapColor.YELLOW)
 			.sounds(ASounds.GRASS_SOUNDS)
 			.noCollision()
 			.ticksRandomly()
@@ -563,13 +563,13 @@ public class ABlocks {
 			.luminance(15)
 			.dropsNothing()) {};
 			
-	public static final Block OBSIDIAN = new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.PURPLE)
+	public static final Block OBSIDIAN = new Block(FabricBlockSettings.of(Material.STONE, MapColor.PURPLE)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES, 3)
 			.strength(50, 1200)
 			.requiresTool());
 	
-	public static final Block ANCH_OBSIDIAN = new RuneBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.PURPLE)
+	public static final Block ANCH_OBSIDIAN = new RuneBlock(FabricBlockSettings.of(Material.STONE, MapColor.PURPLE)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES, 3)
 			.strength(50, 1200)
@@ -621,26 +621,26 @@ public class ABlocks {
 			}
 		});
 	
-	public static final Block ANCH_COBBLESTONE = new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block ANCH_COBBLESTONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.strength(2.0f, 10f)
 			.requiresTool());
 	
-	public static final Block BROWN_MUSHROOM = new AntiqueMushroomBlock(FabricBlockSettings.of(Material.PLANT, MaterialColor.BROWN)
+	public static final Block BROWN_MUSHROOM = new AntiqueMushroomBlock(FabricBlockSettings.of(Material.PLANT, MapColor.BROWN)
 			.sounds(ASounds.GRASS_SOUNDS)
 			.luminance(1)
 			.noCollision()
 			.ticksRandomly()
 			.breakInstantly());
 	
-	public static final Block RED_MUSHROOM = new AntiqueMushroomBlock(FabricBlockSettings.of(Material.PLANT, MaterialColor.RED)
+	public static final Block RED_MUSHROOM = new AntiqueMushroomBlock(FabricBlockSettings.of(Material.PLANT, MapColor.RED)
 			.sounds(ASounds.GRASS_SOUNDS)
 			.noCollision()
 			.ticksRandomly()
 			.breakInstantly());
 	
-	public static final SugarCaneBlock REEDS = new SugarCaneBlock(FabricBlockSettings.of(Material.PLANT, MaterialColor.GREEN)
+	public static final SugarCaneBlock REEDS = new SugarCaneBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN)
 			.noCollision()
 			.sounds(BlockSoundGroup.GRASS)
 			.ticksRandomly()
@@ -669,20 +669,20 @@ public class ABlocks {
 		
 	};
 	
-	public static final Block SNOW = new SnowBlock(FabricBlockSettings.of(Material.SNOW_LAYER, MaterialColor.WHITE)
+	public static final Block SNOW = new SnowBlock(FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.WHITE)
 			.sounds(BlockSoundGroup.WOOL)
 			.breakByTool(FabricToolTags.SHOVELS)
 			.strength(0.1F)
 			.ticksRandomly()
 			.requiresTool()) {};
 			
-	public static final Block SNOW_BLOCK = new Block(FabricBlockSettings.of(Material.SNOW_BLOCK, MaterialColor.WHITE)
+	public static final Block SNOW_BLOCK = new Block(FabricBlockSettings.of(Material.SNOW_BLOCK, MapColor.WHITE)
 			.sounds(BlockSoundGroup.WOOL)
 			.breakByTool(FabricToolTags.SHOVELS)
 			.requiresTool()
 			.strength(0.2F));
 	
-	public static final Block ICE = new TransparentBlock(FabricBlockSettings.of(Material.ICE, MaterialColor.ICE)
+	public static final Block ICE = new TransparentBlock(FabricBlockSettings.of(Material.ICE, MapColor.PALE_PURPLE)
 			.sounds(BlockSoundGroup.GLASS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.slipperiness(0.98F)
@@ -722,7 +722,7 @@ public class ABlocks {
 		}
 	};
 	
-	public static final Block DOOR = new DoorBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
+	public static final Block DOOR = new DoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.OAK_TAN)
 			.sounds(ASounds.WOOD_SOUNDS)
 			.breakByTool(FabricToolTags.AXES)
 			.strength(3)) {
@@ -737,31 +737,31 @@ public class ABlocks {
 		}
 	};
 			
-	public static final Block GLASS = new TransparentBlock(FabricBlockSettings.of(Material.ICE, MaterialColor.ICE)
+	public static final Block GLASS = new TransparentBlock(FabricBlockSettings.of(Material.ICE, MapColor.PALE_PURPLE)
 			.sounds(BlockSoundGroup.GLASS)
 			.ticksRandomly()
 			.strength(0.3F)
 			.nonOpaque()) {};
 			
-	public static final Block IRON_BLOCK = new Block(FabricBlockSettings.of(Material.METAL, MaterialColor.IRON)
+	public static final Block IRON_BLOCK = new Block(FabricBlockSettings.of(Material.METAL, MapColor.IRON_GRAY)
 			.sounds(BlockSoundGroup.METAL)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.strength(5.0f, 10f)
 			.requiresTool());
 	
-	public static final Block GOLD_BLOCK = new Block(FabricBlockSettings.of(Material.METAL, MaterialColor.GOLD)
+	public static final Block GOLD_BLOCK = new Block(FabricBlockSettings.of(Material.METAL, MapColor.GOLD)
 			.sounds(BlockSoundGroup.METAL)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.strength(3.0f, 10f)
 			.requiresTool());
 	
-	public static final Block DIAMOND_BLOCK = new Block(FabricBlockSettings.of(Material.METAL, MaterialColor.DIAMOND)
+	public static final Block DIAMOND_BLOCK = new Block(FabricBlockSettings.of(Material.METAL, MapColor.DIAMOND_BLUE)
 			.sounds(BlockSoundGroup.METAL)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.strength(5.0f, 10f)
 			.requiresTool());
 	
-	public static final Block SPONGE = new Block(FabricBlockSettings.of(Material.WOOL, MaterialColor.YELLOW)
+	public static final Block SPONGE = new Block(FabricBlockSettings.of(Material.WOOL, MapColor.YELLOW)
 			.sounds(ASounds.GRASS_SOUNDS)
 			.ticksRandomly()
 			.strength(0.6f)) {
@@ -842,35 +842,35 @@ public class ABlocks {
 		}
 	};
 	
-	public static final Block COAL_ORE = new IdentitySilkTouchBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block COAL_ORE = new IdentitySilkTouchBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.strength(3)
 			.requiresTool()
 			.dropsLike(Blocks.COAL_ORE));
 	
-	public static final Block IRON_ORE = new IdentitySilkTouchBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block IRON_ORE = new IdentitySilkTouchBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES, 1)
 			.strength(3)
 			.requiresTool()
 			.dropsLike(Blocks.IRON_ORE));
 	
-	public static final Block GOLD_ORE = new IdentitySilkTouchBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block GOLD_ORE = new IdentitySilkTouchBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES, 2)
 			.strength(3)
 			.requiresTool()
 			.dropsLike(Blocks.GOLD_ORE));
 	
-	public static final Block DIAMOND_ORE = new IdentitySilkTouchBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block DIAMOND_ORE = new IdentitySilkTouchBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES, 2)
 			.strength(3)
 			.requiresTool()
 			.dropsLike(Blocks.DIAMOND_ORE));
 	
-	public static final Block REDSTONE_ORE = new RedstoneOreBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block REDSTONE_ORE = new RedstoneOreBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES, 2)
 			.strength(3)
@@ -891,31 +891,31 @@ public class ABlocks {
 		}
 	};
 	
-	public static final Block CLOTH_RED = makeCloth(MaterialColor.RED);
-	public static final Block CLOTH_ORANGE = makeCloth(MaterialColor.ORANGE);
-	public static final Block CLOTH_YELLOW = makeCloth(MaterialColor.YELLOW);
-	public static final Block CLOTH_LIME = makeCloth(MaterialColor.LIME);
-	public static final Block CLOTH_GREEN = makeCloth(MaterialColor.LIME);
-	public static final Block CLOTH_MINT = makeCloth(MaterialColor.EMERALD);
-	public static final Block CLOTH_CYAN = makeCloth(MaterialColor.ICE);
-	public static final Block CLOTH_PERIWINKLE = makeCloth(MaterialColor.ICE);
-	public static final Block CLOTH_LILAC = makeCloth(MaterialColor.PURPLE);
-	public static final Block CLOTH_PURPLE = makeCloth(MaterialColor.PURPLE);
-	public static final Block CLOTH_LAVENDER = makeCloth(MaterialColor.PURPLE);
-	public static final Block CLOTH_MAGENTA = makeCloth(MaterialColor.MAGENTA);
-	public static final Block CLOTH_PINK = makeCloth(MaterialColor.MAGENTA);
-	public static final Block CLOTH_GRAY = makeCloth(MaterialColor.GRAY);
-	public static final Block CLOTH_SILVER = makeCloth(MaterialColor.LIGHT_GRAY);
-	public static final Block CLOTH_WHITE = makeCloth(MaterialColor.WHITE);
+	public static final Block CLOTH_RED = makeCloth(MapColor.RED);
+	public static final Block CLOTH_ORANGE = makeCloth(MapColor.ORANGE);
+	public static final Block CLOTH_YELLOW = makeCloth(MapColor.YELLOW);
+	public static final Block CLOTH_LIME = makeCloth(MapColor.LIME);
+	public static final Block CLOTH_GREEN = makeCloth(MapColor.LIME);
+	public static final Block CLOTH_MINT = makeCloth(MapColor.EMERALD_GREEN);
+	public static final Block CLOTH_CYAN = makeCloth(MapColor.PALE_PURPLE);
+	public static final Block CLOTH_PERIWINKLE = makeCloth(MapColor.PALE_PURPLE);
+	public static final Block CLOTH_LILAC = makeCloth(MapColor.PURPLE);
+	public static final Block CLOTH_PURPLE = makeCloth(MapColor.PURPLE);
+	public static final Block CLOTH_LAVENDER = makeCloth(MapColor.PURPLE);
+	public static final Block CLOTH_MAGENTA = makeCloth(MapColor.MAGENTA);
+	public static final Block CLOTH_PINK = makeCloth(MapColor.MAGENTA);
+	public static final Block CLOTH_GRAY = makeCloth(MapColor.GRAY);
+	public static final Block CLOTH_SILVER = makeCloth(MapColor.LIGHT_GRAY);
+	public static final Block CLOTH_WHITE = makeCloth(MapColor.WHITE);
 	
-	private static Block makeCloth(MaterialColor color) {
+	private static Block makeCloth(MapColor color) {
 		return new Block(FabricBlockSettings.of(Material.WOOL, color)
 			.sounds(BlockSoundGroup.WOOL)
 			.strength(0.8f)
 			.breakByTool(FabricToolTags.SHEARS));
 	}
 	
-	public static final Block DISPENSER = new DispenserBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block DISPENSER = new DispenserBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.requiresTool()
@@ -926,7 +926,7 @@ public class ABlocks {
 		}
 	};
 			
-	public static final Block STONECUTTER = new StonecutterBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block STONECUTTER = new StonecutterBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.requiresTool()
@@ -937,7 +937,7 @@ public class ABlocks {
 		}
 	};
 	
-	public static final Block COBBLESTONE_STAIRS = new StairsBlock(COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MaterialColor.STONE)
+	public static final Block COBBLESTONE_STAIRS = new StairsBlock(COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY)
 			.sounds(ASounds.STONE_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.strength(2.0f, 10f)
@@ -963,7 +963,7 @@ public class ABlocks {
 		}
 	};
 			
-	public static final Block WOOD_STAIRS = new StairsBlock(COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
+	public static final Block WOOD_STAIRS = new StairsBlock(COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.WOOD, MapColor.OAK_TAN)
 			.sounds(ASounds.WOOD_SOUNDS)
 			.breakByTool(FabricToolTags.PICKAXES)
 			.strength(2.0f, 10f)

@@ -22,7 +22,7 @@ public class AFluids {
 	public static final WaterFluid FLOWING_WATER = new WaterFluid.Flowing() {
 		@Override
 		public BlockState toBlockState(FluidState state) {
-			return ABlocks.WATER.getDefaultState().with(FluidBlock.LEVEL, method_15741(state));
+			return ABlocks.WATER.getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(state));
 		}
 		
 		@Override
@@ -54,7 +54,7 @@ public class AFluids {
 	public static final WaterFluid WATER = new WaterFluid.Still() {
 		@Override
 		public BlockState toBlockState(FluidState state) {
-			return ABlocks.WATER.getDefaultState().with(FluidBlock.LEVEL, method_15741(state));
+			return ABlocks.WATER.getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(state));
 		}
 		
 		@Override
@@ -86,7 +86,7 @@ public class AFluids {
 	public static final LavaFluid FLOWING_LAVA = new LavaFluid.Flowing() {
 		@Override
 		public BlockState toBlockState(FluidState state) {
-			return ABlocks.LAVA.getDefaultState().with(FluidBlock.LEVEL, method_15741(state));
+			return ABlocks.LAVA.getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(state));
 		}
 		
 		@Override
@@ -118,7 +118,7 @@ public class AFluids {
 	public static final LavaFluid LAVA = new LavaFluid.Still() {
 		@Override
 		public BlockState toBlockState(FluidState state) {
-			return ABlocks.LAVA.getDefaultState().with(FluidBlock.LEVEL, method_15741(state));
+			return ABlocks.LAVA.getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(state));
 		}
 		
 		@Override

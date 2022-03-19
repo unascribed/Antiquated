@@ -13,8 +13,6 @@ import com.unascribed.antiquated.AntiquatedClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -29,7 +27,7 @@ public abstract class MixinHandledScreen extends Screen {
 	protected boolean cursorDragging;
 	
 	@ModifyVariable(at=@At(value="INVOKE_ASSIGN", target="net/minecraft/screen/slot/Slot.getBackgroundSprite()Lcom/mojang/datafixers/util/Pair;"), method="drawSlot")
-	protected Pair<Identifier, Identifier> getBackgroundForSlot(Pair<Identifier, Identifier> orig, MatrixStack matrices, Slot slot) {
+	protected Pair<Identifier, Identifier> getBackgroundForSlot(Pair<Identifier, Identifier> orig) {
 		Object self = this;
 		if (self instanceof InventoryScreen && AntiquatedClient.isInAntiqueBiome()) {
 			return null;
