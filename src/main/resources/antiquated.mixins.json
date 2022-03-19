@@ -30,8 +30,7 @@
   	"AccessorCreeperEntity",
   	"MixinStonecutterScreenHandler",
   	"MixinExplosion",
-  	"MixinTntBlock",
-  	"MixinMinecartEntity"
+  	"MixinTntBlock"
   ],
   "client": [
   	"MixinScreen",

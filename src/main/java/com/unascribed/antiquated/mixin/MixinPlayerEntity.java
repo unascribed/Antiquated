@@ -2,6 +2,8 @@ package com.unascribed.antiquated.mixin;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -72,9 +74,18 @@ abstract public class MixinPlayerEntity extends LivingEntity {
 	@Inject(at=@At("HEAD"), method="shouldDismount()Z",
 			cancellable=true)
 	public void shouldDismount(CallbackInfoReturnable<Boolean> ci) {
-		Object self = this;
-		if (self instanceof PlayerEntity && Antiquated.isInCursedAntiqueBiome(this) && ((PlayerEntity)self).hasVehicle()) {
+		if (Antiquated.isInCursedAntiqueBiome(this) && ((PlayerEntity)(Object)this).hasVehicle()) {
 			ci.setReturnValue(false);
+		}
+	}
+
+	@Inject(at=@At("HEAD"), method="interact(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;", cancellable=true)
+	public void interact(Entity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+		if (Antiquated.isInAntiqueBiome(this)) {
+			if (entity != null && entity == getVehicle()) {
+				stopRiding();
+				cir.setReturnValue(ActionResult.SUCCESS);
+			}
 		}
 	}
 
